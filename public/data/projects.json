@@ -1,0 +1,42 @@
+[
+  {
+    "id": "okarowok-wibye-acel",
+    "title": "Okarowok Wibye Acel",
+    "category": "Web Development",
+    "year": "2024",
+    "description": "Digital platform for the Okarowok Wibye Acel Clan — guardians of Lango cultural heritage since 1887. The site connects over 56,000 members across 24 chiefdoms and communicates the clan's mission of advancing human rights, social inclusion, climate justice, and peace-building across Uganda's Lango region.",
+    "live": "https://okarowokwibyeacel.com",
+    "github": "https://github.com/KaKebe-Technologies/okarowok_wibye",
+    "featured": true
+  },
+  {
+    "id": "es-shemen",
+    "title": "Es Shemen International School",
+    "category": "Web Development",
+    "year": "2024",
+    "description": "Official website for Es Shemen International School in Lira City — an institution built on the A.C.E. curriculum, a Bible-centred American framework used in over 140 countries. The site reflects their vision of raising responsible, God-fearing global citizens through holistic, Christ-centred education.",
+    "live": "https://esshemen.com",
+    "github": "https://github.com/KaKebe-Technologies/edshemen",
+    "featured": false
+  },
+  {
+    "id": "adag-anii",
+    "title": "Adag Anii Limited",
+    "category": "Web Development",
+    "year": "2024",
+    "description": "Corporate web presence for Adag Anii Limited, an agricultural enterprise operating since 2011 across 19 districts in Northern Uganda. The site showcases their climate-smart cocoa, rice, and vegetable production across 492 acres, their support of 842+ smallholder farmers, and their international market linkages with partners like ICAM Chocolates.",
+    "live": "https://adaganii.com",
+    "github": "https://github.com/KaKebe-Technologies/adaganii",
+    "featured": false
+  },
+  {
+    "id": "jerusalem-heritage",
+    "title": "Jerusalem Heritage School",
+    "category": "Web Development",
+    "year": "2024",
+    "description": "Website for Jerusalem Heritage School in Lira City — a modern primary institution transformed to international standards by the Jerusalem Institute of Science and Technology in 2019. Built to support their mission of delivering affordable, high-quality pre-primary and primary education in Northern Uganda.",
+    "live": "",
+    "github": "https://github.com/KaKebe-Technologies/heritage",
+    "featured": false
+  }
+]
