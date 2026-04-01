@@ -111,14 +111,9 @@ export default function Contact() {
 
           {/* Right — Formspree form */}
           <RevealWrapper delay={160}>
-            {/*
-              SETUP: Go to formspree.io, create a free account + form,
-              then replace YOUR_FORM_ID below with your actual form ID.
-              e.g. action="https://formspree.io/f/abcdefgh"
-            */}
             <form
               className="form"
-              action="https://formspree.io/f/YOUR_FORM_ID"
+              action="https://formspree.io/f/xzdkvkzl"
               method="POST"
               onSubmit={handleSubmit}
               noValidate
