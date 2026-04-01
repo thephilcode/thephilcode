@@ -76,7 +76,7 @@ I like systems that are **simple on the surface but powerful underneath** — ki
 
 ---
 
-## 🧩 Quote I Like
+## 🧩 My Design Philosophy
 
 > "Simplicity is the ultimate sophistication."
 
