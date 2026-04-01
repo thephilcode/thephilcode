@@ -3,11 +3,11 @@
  * Inserts the projects from public/data/projects.json into Payload.
  *
  * Usage:
- *   npm run seed
+ *   pnpm seed
  *
  * Prerequisites:
  *   - DATABASE_URL and PAYLOAD_SECRET set in .env.local
- *   - Database migrated: npm run payload migrate
+ *   - Database migrated: pnpm payload migrate
  */
 import * as path from 'path';
 import * as fs from 'fs';
@@ -29,6 +29,7 @@ interface SeedProject {
   live: string;
   github: string;
   featured: boolean;
+  _status?: 'draft' | 'published';
 }
 
 async function seed() {
@@ -51,6 +52,7 @@ async function seed() {
         live:        project.live   || null,
         github:      project.github || null,
         featured:    project.featured,
+        _status:     project._status || 'published',
       },
     });
     console.log(`  ✓ ${project.title}`);

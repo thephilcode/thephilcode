@@ -3,40 +3,144 @@
     "id": "okarowok-wibye-acel",
     "title": "Okarowok Wibye Acel",
     "category": "Web Development",
-    "year": "2024",
+    "year": "2025",
     "description": "Digital platform for the Okarowok Wibye Acel Clan — guardians of Lango cultural heritage since 1887. The site connects over 56,000 members across 24 chiefdoms and communicates the clan's mission of advancing human rights, social inclusion, climate justice, and peace-building across Uganda's Lango region.",
     "live": "https://okarowokwibyeacel.com",
-    "github": "https://github.com/KaKebe-Technologies/okarowok_wibye",
+    "github": "https://github.com/KaKebe-Technologies-Limited/okarowok_wibye",
     "featured": true
   },
   {
     "id": "es-shemen",
     "title": "Es Shemen International School",
     "category": "Web Development",
-    "year": "2024",
+    "year": "2025",
     "description": "Official website for Es Shemen International School in Lira City — an institution built on the A.C.E. curriculum, a Bible-centred American framework used in over 140 countries. The site reflects their vision of raising responsible, God-fearing global citizens through holistic, Christ-centred education.",
     "live": "https://esshemen.com",
-    "github": "https://github.com/KaKebe-Technologies/edshemen",
+    "github": "https://github.com/KaKebe-Technologies-Limited/edshemen",
     "featured": false
   },
   {
     "id": "adag-anii",
     "title": "Adag Anii Limited",
     "category": "Web Development",
-    "year": "2024",
+    "year": "2025",
     "description": "Corporate web presence for Adag Anii Limited, an agricultural enterprise operating since 2011 across 19 districts in Northern Uganda. The site showcases their climate-smart cocoa, rice, and vegetable production across 492 acres, their support of 842+ smallholder farmers, and their international market linkages with partners like ICAM Chocolates.",
     "live": "https://adaganii.com",
-    "github": "https://github.com/KaKebe-Technologies/adaganii",
+    "github": "https://github.com/KaKebe-Technologies-Limited/adag-anii",
     "featured": false
   },
   {
     "id": "jerusalem-heritage",
     "title": "Jerusalem Heritage School",
     "category": "Web Development",
-    "year": "2024",
+    "year": "2025",
     "description": "Website for Jerusalem Heritage School in Lira City — a modern primary institution transformed to international standards by the Jerusalem Institute of Science and Technology in 2019. Built to support their mission of delivering affordable, high-quality pre-primary and primary education in Northern Uganda.",
     "live": "",
-    "github": "https://github.com/KaKebe-Technologies/heritage",
+    "github": "https://github.com/KaKebe-Technologies-Limited/JHS",
+    "featured": false,
+    "_status" : "draft"
+  },
+  {
+    "id": "awico-engineering",
+    "title": "Awico Engineering Limited",
+    "category": "Web Development",
+    "year": "2025",
+    "description": "Corporate website for Awico Engineering Ltd, showcasing the company’s expertise in engineering services, technical solutions, and project execution. The platform presents their service offerings, past projects, and industry capabilities while providing a clear and professional interface for client engagement, inquiries, and business outreach.",
+    "live": "https://awicoengineeringltd.com",
+    "github": "https://github.com/KaKebe-Technologies-Limited/Awico-Engineering",
     "featured": false
+  },
+  {
+    "id": "biotech-orthomart",
+    "title": "Biotech Orthomart Limited",
+    "category": "Web Development",
+    "year": "2025",
+    "description": "E-commerce and corporate website for Biotech Orthomart Ltd, a Kampala-based supplier of orthopaedic and medical equipment. The platform showcases a wide range of products—including implants, prosthetics, surgical instruments, and healthcare consumables—while enabling seamless online browsing and inquiries. Designed to support accessibility and trust, the site reflects the company’s mission to deliver reliable, high-quality healthcare solutions across Uganda.",
+    "live": "https://biotechorthomart.com",
+    "github": "https://github.com/KaKebe-Technologies-Limited/biotech",
+    "featured": false
+  },
+  {
+    "id": "apeiros",
+    "title": "Apeiros Investments",
+    "category": "Web Development",
+    "year": "2025",
+    "description": "Corporate website for Apeiros Investments, presenting a modern investment and consulting firm focused on driving business growth through strategic capital and advisory services. The platform highlights the company’s role in supporting enterprises with tailored investment solutions, business development strategies, and long-term value creation, while maintaining a clean and professional interface for client engagement.",
+    "live": "https://apeirosinv.com",
+    "github": "https://github.com/KaKebe-Technologies-Limited/apeiros-investments",
+    "featured": true
+  },
+  {
+    "id": "nufma",
+    "title": "Northern Uganda Filmmakers Association (NUFMA)",
+    "category": "Web Development",
+    "year": "2025",
+    "description": "Official website for the Northern Uganda Filmmakers Association (NUFMA), a platform dedicated to uniting and promoting filmmakers across the region. The site highlights the Northern Uganda Film Awards, showcases local film talent, and facilitates submissions, ticketing, and community engagement. It also serves as a hub for industry growth through workshops, screenings, and networking—supporting the development and global visibility of Northern Uganda’s film and media sector.",
+    "live": "https://nufa.media",
+    "github": "https://github.com/KaKebe-Technologies-Limited/nufma",
+    "featured": false
+  },
+  {
+    "id": "tuy",
+    "title": "The Unlimited Youths",
+    "category": "Web Development",
+    "year": "2025",
+    "description": "Website for The Unlimited Youths, a youth-led Ugandan organization focused on empowering young people through mentorship, skills development, and innovation. The platform highlights initiatives in leadership, entrepreneurship, ICT, and climate action, alongside structured programs in poverty reduction, digital skills training, and youth-led research. It also promotes mentorship opportunities through global networks and showcases the organization’s impact in equipping youth with practical skills, financial literacy, and pathways to employment and community transformation.",
+    "live": "https://theunlimitedyouths.org",
+    "github": "https://github.com/KaKebe-Technologies-Limited/TUY",
+    "featured": false
+  },
+  {
+    "id": "cewochr",
+    "title": "The Centre for Women and Children’s Reintegration (CEWOCHR)",
+    "category": "Web Development",
+    "year": "2025",
+    "description": "Website for the Centre for Women and Children’s Reintegration (CEWOCHR), a Ugandan non-profit organization dedicated to advocating for the rights of girls, women, and children born outside marriage. The platform communicates the organization’s mission, programs, and impact—highlighting efforts in human rights awareness, legal aid, psychosocial support, and economic empowerment. It serves as a central hub for outreach, advocacy, and engagement aimed at addressing discrimination and promoting social inclusion across Northern Uganda.",
+    "live": "https://cewochr.org",
+    "github": "https://github.com/OscarJerome/cewochr",
+    "featured": false
+  },
+  {
+    "id": "lcf",
+    "title": "Lango Cultural Foundation (LCF)",
+    "category": "Web Development",
+    "year": "2025",
+    "description": "Official website for the Lango Cultural Foundation, a nonprofit organization dedicated to preserving, promoting, and revitalizing the rich cultural heritage of the Lango people. The platform showcases the foundation’s initiatives in cultural education, community development, and heritage conservation, while serving as a central hub for news, events, and programs that strengthen identity and unity across the Lango community.",
+    "live": "https://langoculturalfoundation.org",
+    "github": "https://github.com/KaKebe-Technologies-Limited/lcf",
+    "featured": true
+  },
+  {
+    "id": "saving-grace",
+    "title": "",
+    "category": "Web Development",
+    "year": "2025",
+    "description": "",
+    "live": "https://",
+    "github": "https://github.com/KaKebe-Technologies-Limited/saving-grace",
+    "featured": false,
+    "_status" : "draft"
+  },
+  {
+    "id": "profesa-maros",
+    "title": "Profesa Maros",
+    "category": "Web Development",
+    "year": "2025",
+    "description": "Digital platform for Profesa Maros, a Lira-based artist showcasing his music, creative identity, and cultural influence within Uganda’s growing urban soundscape. The site acts as a central hub for releases, artist updates, and audience engagement, helping connect his work with fans while strengthening his presence in the local creative industry.",
+    "live": "https://profesamaros.com",
+    "github": "https://github.com/KaKebe-Technologies-Limited/hotsoup",
+    "featured": false,
+    "_status" : "draft"
+  },
+  {
+    "id": "keri-naturals",
+    "title": "Keri Naturals",
+    "category": "Web Development",
+    "year": "2025",
+    "description": "Website for Keri Naturals, a wellness and skincare brand focused on crafting organic, plant-based products that promote healthy living and natural beauty. The website serves as an online storefront and brand identity hub, showcasing product offerings, brand philosophy, and commitment to eco-friendly, chemical-free formulations designed to support everyday personal care.",
+    "live": "https://kerinaturals.com",
+    "github": "https://github.com/KaKebe-Technologies-Limited/Keri_Naturals",
+    "featured": false,
+    "_status" : "draft"
   }
 ]
