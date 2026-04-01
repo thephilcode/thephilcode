@@ -6,6 +6,10 @@ export const Projects: CollectionConfig = {
     useAsTitle: 'title',
     defaultColumns: ['title', 'category', 'year', 'featured'],
     description: 'Your portfolio projects. Toggle "Featured" to highlight one on the home page.',
+    orderable: true,
+  },
+  versions: {
+    drafts: true,
   },
   fields: [
     {
