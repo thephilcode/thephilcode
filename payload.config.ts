@@ -27,7 +27,10 @@ export default buildConfig({
 
   editor: lexicalEditor(),
 
-  secret: process.env.PAYLOAD_SECRET ?? '',
+  secret: process.env.PAYLOAD_SECRET || (() => { throw new Error('PAYLOAD_SECRET environment variable is required'); })(),
+
+  cors: [process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3000'],
+  csrf: [process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3000'],
 
   typescript: {
     outputFile: path.resolve(dirname, 'src/payload-types.ts'),

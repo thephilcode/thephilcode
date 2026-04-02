@@ -1,7 +1,24 @@
 import type { CollectionConfig } from 'payload';
 
+const validateURL = (value: string | null | undefined) => {
+  if (!value) return true;
+  try {
+    const url = new URL(value);
+    if (!['http:', 'https:'].includes(url.protocol)) return 'URL must use http:// or https://';
+    return true;
+  } catch {
+    return 'Must be a valid URL';
+  }
+};
+
 export const Projects: CollectionConfig = {
   slug: 'projects',
+  access: {
+    read: () => true,
+    create: ({ req }) => !!req.user,
+    update: ({ req }) => !!req.user,
+    delete: ({ req }) => !!req.user,
+  },
   admin: {
     useAsTitle: 'title',
     defaultColumns: ['title', 'category', 'year', 'featured'],
@@ -38,6 +55,7 @@ export const Projects: CollectionConfig = {
       name: 'live',
       type: 'text',
       label: 'Live Site URL',
+      validate: validateURL,
       admin: {
         description: 'Full URL including https://',
       },
@@ -46,6 +64,7 @@ export const Projects: CollectionConfig = {
       name: 'github',
       type: 'text',
       label: 'GitHub URL',
+      validate: validateURL,
       admin: {
         description: 'Full URL to the GitHub repository',
       },
