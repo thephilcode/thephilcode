@@ -6,7 +6,6 @@ export const Projects: CollectionConfig = {
     useAsTitle: 'title',
     defaultColumns: ['title', 'category', 'year', 'featured'],
     description: 'Your portfolio projects. Toggle "Featured" to highlight one on the home page.',
-    orderable: true,
   },
   versions: {
     drafts: true,
@@ -58,7 +57,7 @@ export const Projects: CollectionConfig = {
       defaultValue: false,
       admin: {
         description:
-          'Only one project should be featured at a time. Featured projects appear with gold corner marks at the top of the Work section.',
+          'Up to 3 featured projects appear with gold corner marks at the top of the Work section.',
       },
     },
   ],

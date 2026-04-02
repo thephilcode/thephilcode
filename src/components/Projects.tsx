@@ -23,7 +23,7 @@ function GithubIcon() {
   );
 }
 
-function CardLinks({ live, github }: { live: string; github: string }) {
+function CardLinks({ live, github }: { live?: string | null; github?: string | null }) {
   if (!live && !github) return null;
   return (
     <div className="card__links">
