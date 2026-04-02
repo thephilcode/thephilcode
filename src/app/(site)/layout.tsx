@@ -36,7 +36,7 @@ export const metadata: Metadata = {
     type: 'website',
     title: 'Ayo Philip Odongo — Web Developer',
     description: 'Freelance web developer based in Uganda. Building purposeful digital experiences.',
-    url: 'https://thephilcode.github.io/',
+    url: 'https://thephilcode.vercel.app/',
   },
   icons: {
     icon: [

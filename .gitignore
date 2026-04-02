@@ -18,6 +18,9 @@
 .env.test.local
 .env.production.local
 
+# Claude
+.claude/
+
 # Vercel
 .vercel
 
