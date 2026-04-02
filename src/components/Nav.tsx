@@ -1,7 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState, useCallback } from 'react';
-import Link from 'next/link';
+import { useEffect, useState, useCallback } from 'react';
 
 const NAV_LINKS = [
   { label: 'Work',    href: '#work' },

@@ -75,7 +75,7 @@ export default function Contact() {
     <section id="contact" className="section" aria-label="Contact">
       <div className="container">
         <header className="section__header">
-          <p className="section-label">// Contact</p>
+          <p className="section-label">{'// Contact'}</p>
           <div className="divider" />
           <h2 className="section-title">Get in Touch</h2>
         </header>

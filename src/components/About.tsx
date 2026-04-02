@@ -12,7 +12,7 @@ export default function About() {
     <section id="about" className="section" aria-label="About">
       <div className="container">
         <header className="section__header">
-          <p className="section-label">// About</p>
+          <p className="section-label">{'// About'}</p>
           <div className="divider" />
           <h2 className="section-title">Who I Am</h2>
         </header>

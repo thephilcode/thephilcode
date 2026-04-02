@@ -92,14 +92,14 @@ export default function Projects({ projects }: ProjectsProps) {
     <section id="work" className="section" aria-label="Work">
       <div className="container">
         <header className="section__header">
-          <p className="section-label">// Work</p>
+          <p className="section-label">{'// Work'}</p>
           <div className="divider" />
           <h2 className="section-title">Selected Projects</h2>
         </header>
 
         {featured.length > 0 && (
           <div className={`featured-grid featured-grid--${Math.min(featured.length, 3)}`}>
-            {featured.map((project, i) => (
+            {featured.map((project) => (
               <FeaturedCard key={project.id} project={project} />
             ))}
           </div>
