@@ -14,6 +14,9 @@ async function getProjects(): Promise<Project[]> {
     collection: 'projects',
     limit: 100,
     sort: 'createdAt',
+    where: {
+      _status: { equals: 'published' },
+    },
   });
   return docs as Project[];
 }

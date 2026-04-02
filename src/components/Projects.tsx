@@ -65,9 +65,9 @@ function FeaturedCard({ project }: { project: Project }) {
   );
 }
 
-function StandardCard({ project, delay }: { project: Project; delay: number }) {
+function StandardCard({ project, delay, direction }: { project: Project; delay: number; direction: 'left' | 'right' }) {
   return (
-    <RevealWrapper className="card" delay={delay}>
+    <RevealWrapper className="card" delay={delay} direction={direction}>
       <div>
         <p className="card__meta">
           {project.category} &middot; {project.year}
@@ -85,7 +85,7 @@ interface ProjectsProps {
 }
 
 export default function Projects({ projects }: ProjectsProps) {
-  const featured = projects.find(p => p.featured) ?? null;
+  const featured = projects.filter(p => p.featured).slice(0, 3);
   const rest     = projects.filter(p => !p.featured);
 
   return (
@@ -97,12 +97,23 @@ export default function Projects({ projects }: ProjectsProps) {
           <h2 className="section-title">Selected Projects</h2>
         </header>
 
-        {featured && <FeaturedCard project={featured} />}
+        {featured.length > 0 && (
+          <div className={`featured-grid featured-grid--${Math.min(featured.length, 3)}`}>
+            {featured.map((project, i) => (
+              <FeaturedCard key={project.id} project={project} />
+            ))}
+          </div>
+        )}
 
         {rest.length > 0 && (
           <div className="cards-grid" style={{ marginTop: '1.5px' }}>
             {rest.map((project, i) => (
-              <StandardCard key={project.id} project={project} delay={i * 80} />
+              <StandardCard
+                key={project.id}
+                project={project}
+                delay={i * 80}
+                direction={i % 2 === 0 ? 'left' : 'right'}
+              />
             ))}
           </div>
         )}

@@ -7,6 +7,7 @@ interface RevealWrapperProps {
   className?: string;
   delay?: number; // ms
   as?: keyof React.JSX.IntrinsicElements;
+  direction?: 'up' | 'left' | 'right';
 }
 
 export default function RevealWrapper({
@@ -14,6 +15,7 @@ export default function RevealWrapper({
   className = '',
   delay = 0,
   as: Tag = 'div',
+  direction,
 }: RevealWrapperProps) {
   const ref = useRef<HTMLElement>(null);
 
@@ -24,7 +26,6 @@ export default function RevealWrapper({
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          // Honour the delay before adding visible
           setTimeout(() => {
             el.classList.add('visible');
           }, delay);
@@ -38,9 +39,11 @@ export default function RevealWrapper({
     return () => observer.disconnect();
   }, [delay]);
 
+  const dirClass = direction ? `reveal--${direction}` : '';
+
   return (
     // @ts-expect-error — dynamic tag with ref is intentional
-    <Tag ref={ref} className={`reveal ${className}`.trim()}>
+    <Tag ref={ref} className={`reveal ${dirClass} ${className}`.trim()}>
       {children}
     </Tag>
   );

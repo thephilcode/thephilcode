@@ -21,9 +21,11 @@ export default function About() {
           {/* Bio */}
           <RevealWrapper className="about__bio">
             <p>
-              I&apos;m a freelance web developer based in Lira, Uganda. I build clean, fast, and
-              purposeful digital experiences for organisations, schools, and businesses — work
-              that earns attention through structure and precision, not noise.
+              I&apos;m a freelance web developer based in Lira, Uganda. I create digital
+              experiences that range from bold and expressive to clean and precise — whatever
+              the project calls for. Whether it&apos;s a vibrant landing page that demands
+              attention or a structured platform built for clarity, I shape the work to fit
+              the story.
             </p>
             <p>
               Much of my work is done through{' '}
@@ -35,12 +37,13 @@ export default function About() {
                 KaKebe Technologies
               </a>
               , where I collaborate on web projects for clients across Northern Uganda and beyond.
-              I take on freelance engagements independently as well.
+              I also take on freelance engagements independently.
             </p>
             <p>
-              Particularly comfortable with Python and JavaScript, and recently taken a shine to
-              React and Next.js. I care about the quality of what I ship. If a thing is worth
-              building, it is worth building well.
+              I work primarily with JavaScript and Python, and I&apos;ve grown especially fond
+              of React and Next.js for bringing ideas to life on the web. I care about craft —
+              the details that make something feel considered, not just functional. If a thing
+              is worth building, it&apos;s worth building with intention.
             </p>
           </RevealWrapper>
 
