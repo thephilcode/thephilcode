@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Space_Grotesk, Space_Mono } from 'next/font/google';
 import './globals.css';
+import GSAPProvider from '@/components/animations/GSAPProvider';
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ['latin'],
@@ -69,7 +70,7 @@ export default function SiteLayout({
           rel="stylesheet"
         />
       </head>
-      <body>{children}</body>
+      <body><GSAPProvider>{children}</GSAPProvider></body>
     </html>
   );
 }

@@ -67,6 +67,7 @@ export interface Config {
   };
   blocks: {};
   collections: {
+    media: Media;
     projects: Project;
     users: User;
     'payload-kv': PayloadKv;
@@ -76,6 +77,7 @@ export interface Config {
   };
   collectionsJoins: {};
   collectionsSelect: {
+    media: MediaSelect<false> | MediaSelect<true>;
     projects: ProjectsSelect<false> | ProjectsSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
@@ -87,8 +89,16 @@ export interface Config {
     defaultIDType: number;
   };
   fallbackLocale: null;
-  globals: {};
-  globalsSelect: {};
+  globals: {
+    'hero-settings': HeroSetting;
+    'about-settings': AboutSetting;
+    'contact-settings': ContactSetting;
+  };
+  globalsSelect: {
+    'hero-settings': HeroSettingsSelect<false> | HeroSettingsSelect<true>;
+    'about-settings': AboutSettingsSelect<false> | AboutSettingsSelect<true>;
+    'contact-settings': ContactSettingsSelect<false> | ContactSettingsSelect<true>;
+  };
   locale: null;
   widgets: {
     collections: CollectionsWidget;
@@ -118,6 +128,30 @@ export interface UserAuthOperations {
   };
 }
 /**
+ * Images used across the site — project thumbnails, hero portrait, etc.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "media".
+ */
+export interface Media {
+  id: number;
+  /**
+   * Describe the image for screen readers and SEO.
+   */
+  alt: string;
+  updatedAt: string;
+  createdAt: string;
+  url?: string | null;
+  thumbnailURL?: string | null;
+  filename?: string | null;
+  mimeType?: string | null;
+  filesize?: number | null;
+  width?: number | null;
+  height?: number | null;
+  focalX?: number | null;
+  focalY?: number | null;
+}
+/**
  * Your portfolio projects. Toggle "Featured" to highlight one on the home page.
  *
  * This interface was referenced by `Config`'s JSON-Schema
@@ -133,6 +167,10 @@ export interface Project {
   year: string;
   description: string;
   /**
+   * Preview image shown at the top of the project card.
+   */
+  thumbnail?: (number | null) | Media;
+  /**
    * Full URL including https://
    */
   live?: string | null;
@@ -141,7 +179,7 @@ export interface Project {
    */
   github?: string | null;
   /**
-   * Only one project should be featured at a time. Featured projects appear with gold corner marks at the top of the Work section.
+   * Up to 3 featured projects appear with gold corner marks at the top of the Work section.
    */
   featured?: boolean | null;
   updatedAt: string;
@@ -201,6 +239,10 @@ export interface PayloadLockedDocument {
   id: number;
   document?:
     | ({
+        relationTo: 'media';
+        value: number | Media;
+      } | null)
+    | ({
         relationTo: 'projects';
         value: number | Project;
       } | null)
@@ -252,6 +294,24 @@ export interface PayloadMigration {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "media_select".
+ */
+export interface MediaSelect<T extends boolean = true> {
+  alt?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  url?: T;
+  thumbnailURL?: T;
+  filename?: T;
+  mimeType?: T;
+  filesize?: T;
+  width?: T;
+  height?: T;
+  focalX?: T;
+  focalY?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "projects_select".
  */
 export interface ProjectsSelect<T extends boolean = true> {
@@ -259,6 +319,7 @@ export interface ProjectsSelect<T extends boolean = true> {
   category?: T;
   year?: T;
   description?: T;
+  thumbnail?: T;
   live?: T;
   github?: T;
   featured?: T;
@@ -328,6 +389,183 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
   batch?: T;
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * Controls the hero section: eyebrow text, typing phrases, portrait, and CTA buttons.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "hero-settings".
+ */
+export interface HeroSetting {
+  id: number;
+  /**
+   * Small text shown above the name (e.g. role/location).
+   */
+  eyebrow?: string | null;
+  /**
+   * The phrases that cycle through the typing animation below the name.
+   */
+  typingPhrases?:
+    | {
+        phrase: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Profile photo shown in the hero. Leave empty to use the default.
+   */
+  portrait?: (number | null) | Media;
+  primaryCta?: {
+    label?: string | null;
+    /**
+     * URL or anchor link (e.g. #work)
+     */
+    href?: string | null;
+  };
+  secondaryCta?: {
+    label?: string | null;
+    href?: string | null;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * Controls the About section bio and tech stack.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "about-settings".
+ */
+export interface AboutSetting {
+  id: number;
+  bioIntro?: string | null;
+  /**
+   * Use [COMPANY] as a placeholder — it will be replaced with the linked company name below.
+   */
+  bioCompanyContext?: string | null;
+  companyName?: string | null;
+  companyUrl?: string | null;
+  bioClosing?: string | null;
+  /**
+   * Tech stack groups displayed in the About section.
+   */
+  stack?:
+    | {
+        /**
+         * e.g. Languages, Frameworks, Databases, Tools
+         */
+        group: string;
+        items?:
+          | {
+              tag: string;
+              id?: string | null;
+            }[]
+          | null;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * Controls the Contact section intro text, social links, and Formspree ID.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "contact-settings".
+ */
+export interface ContactSetting {
+  id: number;
+  intro?: string | null;
+  socialLinks?:
+    | {
+        platform: 'github' | 'linkedin' | 'linktree' | 'twitter' | 'other';
+        /**
+         * e.g. github.com/thephilcode
+         */
+        label: string;
+        url: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * The ID portion of your Formspree form URL (e.g. for formspree.io/f/xzdkvkzl enter "xzdkvkzl").
+   */
+  formspreeId?: string | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "hero-settings_select".
+ */
+export interface HeroSettingsSelect<T extends boolean = true> {
+  eyebrow?: T;
+  typingPhrases?:
+    | T
+    | {
+        phrase?: T;
+        id?: T;
+      };
+  portrait?: T;
+  primaryCta?:
+    | T
+    | {
+        label?: T;
+        href?: T;
+      };
+  secondaryCta?:
+    | T
+    | {
+        label?: T;
+        href?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "about-settings_select".
+ */
+export interface AboutSettingsSelect<T extends boolean = true> {
+  bioIntro?: T;
+  bioCompanyContext?: T;
+  companyName?: T;
+  companyUrl?: T;
+  bioClosing?: T;
+  stack?:
+    | T
+    | {
+        group?: T;
+        items?:
+          | T
+          | {
+              tag?: T;
+              id?: T;
+            };
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "contact-settings_select".
+ */
+export interface ContactSettingsSelect<T extends boolean = true> {
+  intro?: T;
+  socialLinks?:
+    | T
+    | {
+        platform?: T;
+        label?: T;
+        url?: T;
+        id?: T;
+      };
+  formspreeId?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

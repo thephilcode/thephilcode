@@ -1,5 +1,11 @@
-import type { Project } from '@/types/project';
-import RevealWrapper from './RevealWrapper';
+import Image from 'next/image';
+import type { Project, Media } from '@/payload-types';
+import ScrollReveal from './animations/ScrollReveal';
+import SectionReveal from './animations/SectionReveal';
+import SectionTitleReveal from './animations/SectionTitleReveal';
+import HorizontalScroll from './animations/HorizontalScroll';
+import TiltCard from './animations/TiltCard';
+import TypewriterReveal from './animations/TypewriterReveal';
 
 function ArrowIcon() {
   return (
@@ -41,42 +47,70 @@ function CardLinks({ live, github }: { live?: string | null; github?: string | n
   );
 }
 
-function FeaturedCard({ project }: { project: Project }) {
+function CardThumbnail({ thumbnail, title }: { thumbnail: Project['thumbnail']; title: string }) {
+  if (!thumbnail || typeof thumbnail === 'number') return null;
+  const media = thumbnail as Media;
+  if (!media.url) return null;
   return (
-    <RevealWrapper className="card--featured">
-      <span className="corner corner--tl" aria-hidden="true" />
-      <span className="corner corner--tr" aria-hidden="true" />
-      <span className="corner corner--bl" aria-hidden="true" />
-      <span className="corner corner--br" aria-hidden="true" />
+    <div className="card__thumbnail">
+      <Image
+        src={media.url}
+        alt={media.alt || title}
+        fill
+        sizes="(max-width: 768px) 100vw, 50vw"
+        className="card__thumbnail-img"
+      />
+    </div>
+  );
+}
 
-      <div>
-        <p className="card__badge">Featured Project</p>
-        <h3 className="card__title card__title--lg">{project.title}</h3>
-        <p className="card__meta">
-          {project.category} &middot; {project.year}
-        </p>
-      </div>
+function FeaturedPanel({ project }: { project: Project }) {
+  return (
+    <div className="hscroll__panel">
+      <TiltCard className="card--featured card--featured-panel" maxTilt={4}>
+        <span className="corner corner--tl" aria-hidden="true" />
+        <span className="corner corner--tr" aria-hidden="true" />
+        <span className="corner corner--bl" aria-hidden="true" />
+        <span className="corner corner--br" aria-hidden="true" />
 
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-        <p className="card__description">{project.description}</p>
-        <CardLinks live={project.live} github={project.github} />
-      </div>
-    </RevealWrapper>
+        {project.thumbnail && (
+          <CardThumbnail thumbnail={project.thumbnail} title={project.title} />
+        )}
+
+        <div>
+          <p className="card__badge">Featured Project</p>
+          <h3 className="card__title card__title--lg">{project.title}</h3>
+          <p className="card__meta">
+            {project.category} &middot; {project.year}
+          </p>
+        </div>
+
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+          <p className="card__description">{project.description}</p>
+          <CardLinks live={project.live} github={project.github} />
+        </div>
+      </TiltCard>
+    </div>
   );
 }
 
 function StandardCard({ project, delay, direction }: { project: Project; delay: number; direction: 'left' | 'right' }) {
   return (
-    <RevealWrapper className="card" delay={delay} direction={direction}>
-      <div>
-        <p className="card__meta">
-          {project.category} &middot; {project.year}
-        </p>
-        <h3 className="card__title">{project.title}</h3>
-      </div>
-      <p className="card__description">{project.description}</p>
-      <CardLinks live={project.live} github={project.github} />
-    </RevealWrapper>
+    <ScrollReveal delay={delay} direction={direction}>
+      <TiltCard className="card">
+        {project.thumbnail && (
+          <CardThumbnail thumbnail={project.thumbnail} title={project.title} />
+        )}
+        <div>
+          <p className="card__meta">
+            {project.category} &middot; {project.year}
+          </p>
+          <h3 className="card__title">{project.title}</h3>
+        </div>
+        <p className="card__description">{project.description}</p>
+        <CardLinks live={project.live} github={project.github} />
+      </TiltCard>
+    </ScrollReveal>
   );
 }
 
@@ -90,34 +124,38 @@ export default function Projects({ projects }: ProjectsProps) {
 
   return (
     <section id="work" className="section" aria-label="Work">
-      <div className="container">
-        <header className="section__header">
-          <p className="section-label">{'// Work'}</p>
-          <div className="divider" />
-          <h2 className="section-title">Selected Projects</h2>
-        </header>
+      <SectionReveal mode="clip-up">
+        <div className="container">
+          <header className="section__header">
+            <TypewriterReveal text="// Work" className="section-label" />
+            <div className="divider" />
+            <SectionTitleReveal className="section-title">Selected Projects</SectionTitleReveal>
+          </header>
+        </div>
 
         {featured.length > 0 && (
-          <div className={`featured-grid featured-grid--${Math.min(featured.length, 3)}`}>
+          <HorizontalScroll>
             {featured.map((project) => (
-              <FeaturedCard key={project.id} project={project} />
+              <FeaturedPanel key={project.id} project={project} />
             ))}
-          </div>
+          </HorizontalScroll>
         )}
 
         {rest.length > 0 && (
-          <div className="cards-grid" style={{ marginTop: '1.5px' }}>
-            {rest.map((project, i) => (
-              <StandardCard
-                key={project.id}
-                project={project}
-                delay={i * 80}
-                direction={i % 2 === 0 ? 'left' : 'right'}
-              />
-            ))}
+          <div className="container">
+            <div className="cards-grid" style={{ marginTop: '2rem' }}>
+              {rest.map((project, i) => (
+                <StandardCard
+                  key={project.id}
+                  project={project}
+                  delay={i * 80}
+                  direction={i % 2 === 0 ? 'left' : 'right'}
+                />
+              ))}
+            </div>
           </div>
         )}
-      </div>
+      </SectionReveal>
     </section>
   );
 }

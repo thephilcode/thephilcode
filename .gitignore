@@ -1,7 +1,3 @@
-# Portfolio site ideas
-./portfolio site ideas
-./portfolio site ideas/*
-
 # Dependencies
 /node_modules
 /.pnp
@@ -35,3 +31,6 @@ next-env.d.ts
 # OS
 .DS_Store
 Thumbs.db
+
+# Documentation
+*.pdf

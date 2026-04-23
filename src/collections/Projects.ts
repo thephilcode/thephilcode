@@ -52,6 +52,15 @@ export const Projects: CollectionConfig = {
       required: true,
     },
     {
+      name: 'thumbnail',
+      type: 'upload',
+      relationTo: 'media',
+      label: 'Thumbnail Image',
+      admin: {
+        description: 'Preview image shown at the top of the project card.',
+      },
+    },
+    {
       name: 'live',
       type: 'text',
       label: 'Live Site URL',

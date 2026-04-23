@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 
-const PHRASES = [
+const DEFAULT_PHRASES = [
   'Converting Coffee to Code',
   'Building Digital Experiences',
   'Crafting Pixel-Perfect UIs',
@@ -14,7 +14,13 @@ const ERASING_SPEED = 35;
 const PAUSE_AFTER_TYPING = 2000;
 const PAUSE_AFTER_ERASING = 400;
 
-export default function TypingAnimation() {
+interface TypingAnimationProps {
+  phrases?: string[];
+}
+
+export default function TypingAnimation({ phrases }: TypingAnimationProps) {
+  const PHRASES = phrases && phrases.length > 0 ? phrases : DEFAULT_PHRASES;
+
   const [displayed, setDisplayed] = useState('');
   const [isTyping, setIsTyping] = useState(true);
   const phraseIndex = useRef(0);
@@ -31,7 +37,6 @@ export default function TypingAnimation() {
           setDisplayed(currentPhrase.slice(0, charIndex.current));
           timeoutRef.current = setTimeout(tick, TYPING_SPEED);
         } else {
-          // Finished typing — pause then start erasing
           timeoutRef.current = setTimeout(() => {
             setIsTyping(false);
             tick();
@@ -43,7 +48,6 @@ export default function TypingAnimation() {
           setDisplayed(currentPhrase.slice(0, charIndex.current));
           timeoutRef.current = setTimeout(tick, ERASING_SPEED);
         } else {
-          // Finished erasing — move to next phrase
           phraseIndex.current = (phraseIndex.current + 1) % PHRASES.length;
           timeoutRef.current = setTimeout(() => {
             setIsTyping(true);
@@ -58,6 +62,7 @@ export default function TypingAnimation() {
     return () => {
       if (timeoutRef.current) clearTimeout(timeoutRef.current);
     };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isTyping]);
 
   return (

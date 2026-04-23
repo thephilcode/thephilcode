@@ -56,17 +56,43 @@
 html {
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
+  overflow-x: hidden;
 }
 
 body {
-  background-color: var(--color-black);
+  background-color: var(--color-bg-current, var(--color-black));
   color: var(--color-white);
+  transition: background-color 0.3s ease;
   font-family: var(--font-display);
   font-size: var(--text-body);
   line-height: 1.6;
-  overflow-x: hidden;
+  overflow-x: clip;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* Ambient gold glow */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: radial-gradient(ellipse 60% 40% at 50% 50%, rgba(200, 169, 126, var(--glow-opacity, 0)) 0%, transparent 70%);
+  transition: background 0.5s ease;
+}
+
+/* Film grain overlay */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 256px 256px;
 }
 
 img,
@@ -111,11 +137,49 @@ button {
   margin-bottom: 0.75rem;
 }
 
+.typewriter-cursor {
+  display: inline-block;
+  width: 1.5px;
+  height: 1em;
+  background-color: var(--color-gold);
+  margin-left: 1px;
+  vertical-align: text-bottom;
+  animation: blink 600ms steps(2, start) infinite;
+}
+
 .divider {
   width: 32px;
   height: 1px;
   background-color: var(--color-gold);
   margin-bottom: 1rem;
+  box-shadow: 0 0 8px rgba(200, 169, 126, 0.2);
+}
+
+/* Gold sweep effect on featured cards */
+.card--featured {
+  overflow: hidden;
+}
+
+.card--featured::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    105deg,
+    transparent 40%,
+    rgba(200, 169, 126, 0.06) 45%,
+    rgba(200, 169, 126, 0.1) 50%,
+    rgba(200, 169, 126, 0.06) 55%,
+    transparent 60%
+  );
+  transform: translateX(-100%);
+  transition: transform 0.8s var(--ease-standard);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.card--featured:hover::after {
+  transform: translateX(100%);
 }
 
 .section-title {
@@ -124,28 +188,6 @@ button {
   font-weight: 700;
   letter-spacing: -0.01em;
   color: var(--color-white);
-}
-
-/* ── Scroll Reveal ────────────────────────────────────────── */
-.reveal {
-  opacity: 0;
-  transform: translateY(20px);
-  transition:
-    opacity var(--dur-slow) var(--ease-enter),
-    transform var(--dur-slow) var(--ease-enter);
-}
-
-.reveal.visible {
-  opacity: 1;
-  transform: translate(0, 0);
-}
-
-.reveal--left {
-  transform: translateX(-40px);
-}
-
-.reveal--right {
-  transform: translateX(40px);
 }
 
 /* ── Buttons ──────────────────────────────────────────────── */
@@ -177,6 +219,7 @@ button {
 
 .btn-primary:hover {
   background-color: #d4b68c;
+  box-shadow: 0 0 20px rgba(200, 169, 126, 0.3), 0 0 60px rgba(200, 169, 126, 0.1);
 }
 
 .btn-outline {
@@ -342,25 +385,84 @@ button {
   background-color: var(--color-black);
 }
 
-.hero::before {
-  content: '';
+/* Hero grid + vignette are now real DOM elements for parallax (see HeroPinned.tsx) */
+
+.hero__grid {
   position: absolute;
-  inset: 0;
+  inset: -20% 0;
   background-image:
     linear-gradient(rgba(245, 245, 243, 0.04) 1px, transparent 1px),
     linear-gradient(90deg, rgba(245, 245, 243, 0.04) 1px, transparent 1px);
   background-size: 80px 80px;
   pointer-events: none;
   z-index: 0;
+  will-change: transform;
 }
 
-.hero::after {
-  content: '';
+.hero__vignette {
   position: absolute;
   inset: 0;
   background: radial-gradient(ellipse 80% 60% at 50% 50%, transparent 30%, var(--color-black) 100%);
   pointer-events: none;
   z-index: 0;
+}
+
+/* Floating gold parallax elements */
+.hero__float {
+  position: absolute;
+  pointer-events: none;
+  z-index: 0;
+  will-change: transform;
+}
+
+.hero__float--ring {
+  width: 200px;
+  height: 200px;
+  border: 1px solid rgba(200, 169, 126, 0.08);
+  border-radius: 50%;
+  top: 15%;
+  right: 8%;
+}
+
+.hero__float--bracket-tl {
+  width: 40px;
+  height: 40px;
+  border-top: 1.5px solid rgba(200, 169, 126, 0.12);
+  border-left: 1.5px solid rgba(200, 169, 126, 0.12);
+  top: 25%;
+  left: 5%;
+}
+
+.hero__float--bracket-br {
+  width: 30px;
+  height: 30px;
+  border-bottom: 1.5px solid rgba(200, 169, 126, 0.1);
+  border-right: 1.5px solid rgba(200, 169, 126, 0.1);
+  bottom: 20%;
+  right: 15%;
+}
+
+.hero__float--dot {
+  width: 6px;
+  height: 6px;
+  background: rgba(200, 169, 126, 0.15);
+  border-radius: 50%;
+  top: 60%;
+  left: 12%;
+}
+
+/* Pinned hero wrapper */
+.hero-pinned {
+  position: relative;
+  width: 100%;
+  min-height: 100svh;
+  overflow: hidden;
+}
+
+.hero__pinned-content {
+  position: relative;
+  z-index: 1;
+  will-change: transform, opacity, filter;
 }
 
 .hero__inner {
@@ -511,6 +613,22 @@ button {
   border-right: 1.5px solid var(--color-gold);
 }
 
+.hero__portrait-corner--tl,
+.hero__portrait-corner--br {
+  box-shadow: 0 0 6px rgba(200, 169, 126, 0.3);
+}
+
+/* Gold glow behind portrait */
+.hero__portrait-glow {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+@media (pointer: coarse) {
+  .gold-glow { opacity: 0.5; }
+}
+
 .hero__scroll-hint {
   position: absolute;
   bottom: 2rem;
@@ -608,6 +726,147 @@ button {
 @media (min-width: 640px)  { .cards-grid { grid-template-columns: repeat(2, 1fr); } }
 @media (min-width: 1024px) { .cards-grid { grid-template-columns: repeat(3, 1fr); } }
 
+/* Ensure animation wrapper divs stretch to fill grid cells */
+.cards-grid > div,
+.featured-grid > div {
+  display: flex;
+  flex-direction: column;
+}
+
+.cards-grid > div > div,
+.featured-grid > div > div {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.cards-grid .card {
+  flex: 1;
+}
+
+/* ── Horizontal Scroll ───────────────────────────────────── */
+.hscroll {
+  position: relative;
+  overflow-x: hidden;
+  overflow-y: visible;
+  width: 100%;
+}
+
+.hscroll__track {
+  display: flex;
+  width: max-content;
+}
+
+.hscroll__panel {
+  min-width: 85vw;
+  min-height: 70vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4vh 4rem;
+  flex-shrink: 0;
+}
+
+.hscroll__panel .card--featured-panel {
+  width: 100%;
+  max-width: 700px;
+  min-height: 340px;
+  padding: 3rem;
+}
+
+.hscroll__panel .card__title--lg {
+  font-size: clamp(1.5rem, 3vw, 2.25rem);
+}
+
+.hscroll__panel .card__description {
+  font-size: clamp(0.9375rem, 1.5vw, 1.0625rem);
+  line-height: 1.8;
+}
+
+/* Native horizontal scroll for touch devices */
+/* Scroll box lives on the outer container; track is just a wide flex row */
+.hscroll--native {
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  width: 100%;
+}
+
+.hscroll--native::-webkit-scrollbar {
+  display: none;
+}
+
+.hscroll__track--native {
+  display: flex;
+  gap: 1.5rem;
+  width: max-content;
+  padding: 1rem 1.5rem;
+}
+
+.hscroll__track--native .hscroll__panel {
+  width: 80vw;
+  max-width: 340px;
+  height: auto;
+  min-height: 0;
+  padding: 0;
+  scroll-snap-align: center;
+}
+
+.hscroll__track--native .hscroll__panel .card--featured-panel {
+  width: 100%;
+  max-width: 100%;
+  padding: 2rem;
+  min-height: auto;
+}
+
+@media (max-width: 767px) {
+  /* Pre-hydration fallback: match the native scroll pattern before JS runs */
+  .hscroll {
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  .hscroll::-webkit-scrollbar {
+    display: none;
+  }
+
+  .hscroll__track {
+    width: max-content;
+  }
+
+  .hscroll__panel {
+    width: 80vw;
+    max-width: 340px;
+    height: auto;
+    min-height: 0;
+    padding: 0 0.75rem;
+    scroll-snap-align: center;
+  }
+
+  .hscroll__panel .card--featured-panel {
+    width: 100%;
+    max-width: 100%;
+    padding: 2rem;
+    min-height: auto;
+  }
+}
+
+@media (min-width: 768px) {
+  .hscroll__panel {
+    padding: 4vh 6rem;
+  }
+
+  .hscroll__panel .card--featured-panel {
+    max-width: 800px;
+    padding: 3.5rem;
+  }
+}
+
 .card {
   background-color: var(--color-gray-800);
   padding: 2rem;
@@ -686,6 +945,24 @@ button {
 
 .card__link:hover        { color: var(--color-white); }
 .card__link--live:hover  { color: var(--color-gold); }
+
+.card__thumbnail {
+  position: relative;
+  width: calc(100% + 4rem);
+  margin: -2rem -2rem 0;
+  height: 200px;
+  overflow: hidden;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.card__thumbnail-img {
+  object-fit: cover;
+  transition: transform var(--dur-standard) var(--ease-standard);
+}
+
+.card:hover .card__thumbnail-img {
+  transform: scale(1.04);
+}
 
 /* ── About ────────────────────────────────────────────────── */
 .about__inner {
@@ -954,4 +1231,22 @@ button {
   border-bottom: 1px solid var(--color-gold);
   border-right: 1px solid var(--color-gold);
   pointer-events: none;
+  box-shadow: 0 0 6px rgba(200, 169, 126, 0.2);
+}
+
+/* ── Reduced Motion ──────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  body::before,
+  body::after {
+    display: none;
+  }
 }
