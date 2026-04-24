@@ -3,6 +3,9 @@
 import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
+
 import { useIsTouchDevice, useReducedMotion } from './useReducedMotion';
 
 interface HeroPinnedProps {

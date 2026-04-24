@@ -205,7 +205,7 @@ button {
     background-color var(--dur-fast) var(--ease-standard),
     color var(--dur-fast) var(--ease-standard),
     border-color var(--dur-fast) var(--ease-standard),
-    transform var(--dur-fast) var(--ease-spring);
+    transform var(--dur-fast) var(--ease-standard);
 }
 
 .btn:active {
@@ -309,7 +309,7 @@ button {
   background-color: var(--color-gold);
   transform: scaleX(0);
   transform-origin: left;
-  transition: transform var(--dur-standard) var(--ease-spring);
+  transition: transform var(--dur-standard) var(--ease-enter);
 }
 
 .nav__link:hover,
@@ -875,7 +875,7 @@ button {
   gap: 1rem;
   transition:
     background-color var(--dur-fast) var(--ease-standard),
-    transform var(--dur-standard) var(--ease-spring),
+    transform var(--dur-standard) var(--ease-enter),
     box-shadow var(--dur-standard) var(--ease-standard);
 }
 

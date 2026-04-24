@@ -2,6 +2,7 @@ import Image from 'next/image';
 import ScrollReveal from './animations/ScrollReveal';
 import HeroStagger from './animations/HeroStagger';
 import HeroPinned from './animations/HeroPinned';
+import ParticleNet from './animations/ParticleNet';
 import GoldGlow from './animations/GoldGlow';
 import MagneticButton from './animations/MagneticButton';
 import TypingAnimation from './TypingAnimation';
@@ -32,6 +33,7 @@ export default function Hero({ hero }: HeroProps) {
   return (
     <section id="hero" className="hero" aria-label="Introduction">
       <HeroPinned>
+        <ParticleNet />
         <div className="container">
           <div className="hero__inner">
             <div className="hero__content">

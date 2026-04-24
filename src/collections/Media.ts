@@ -15,7 +15,6 @@ export const Media: CollectionConfig = {
   },
   upload: {
     staticDir: path.resolve(dirname, '../../public/media'),
-    staticURL: '/media',
     mimeTypes: ['image/jpeg', 'image/png', 'image/webp', 'image/gif', 'image/svg+xml'],
   },
   admin: {

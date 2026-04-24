@@ -4,90 +4,109 @@ import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
+gsap.registerPlugin(ScrollTrigger);
+
+import { useReducedMotion, useIsTouchDevice } from './useReducedMotion';
+
 export default function HeroStagger() {
   const ref = useRef<HTMLHeadingElement>(null);
+  const reducedMotion = useReducedMotion();
+  const isTouch = useIsTouchDevice();
 
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
 
-    const chars = el.querySelectorAll<HTMLSpanElement>('.split-char');
-    const totalChars = chars.length;
-    const centerIndex = totalChars / 2;
+    const words = el.querySelectorAll<HTMLSpanElement>('.split-word');
+    const totalWords = words.length;
 
-    gsap.set(chars, { opacity: 0, y: 30, rotateX: -40 });
+    if (reducedMotion) {
+      gsap.set(words, { opacity: 1, y: 0, scale: 1 });
+      return;
+    }
 
-    // Initial entrance stagger
-    gsap.to(chars, {
+    gsap.set(words, { opacity: 0, y: 40, scale: 0.85 });
+
+    gsap.to(words, {
       opacity: 1,
       y: 0,
-      rotateX: 0,
-      duration: 0.6,
-      stagger: 0.035,
-      delay: 0.15,
-      ease: 'power3.out',
+      scale: 1,
+      duration: 0.7,
+      stagger: 0.08,
+      delay: 0.1,
+      ease: 'power4.out',
     });
 
-    // Dissolve on scroll (during hero pin)
-    const heroSection = document.getElementById('hero');
-    if (!heroSection) return;
+    if (!isTouch) {
+      const heroSection = document.getElementById('hero');
+      if (!heroSection) return;
 
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: heroSection,
-        start: 'top top',
-        end: '+=100%',
-        scrub: 0.8,
-      },
-    });
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: heroSection,
+          start: 'top top',
+          end: '+=100%',
+          scrub: 0.8,
+        },
+      });
 
-    chars.forEach((char, i) => {
-      const offset = (i - centerIndex) * 4;
-      tl.to(char, {
-        x: offset,
-        opacity: 0,
-        letterSpacing: '0.15em',
-        ease: 'none',
-      }, 0);
-    });
+      const centerIndex = (totalWords - 1) / 2;
 
-    return () => {
-      tl.scrollTrigger?.kill();
-      tl.kill();
-    };
-  }, []);
+      words.forEach((word, i) => {
+        const offset = (i - centerIndex) * 30;
+        tl.to(word, {
+          x: offset,
+          opacity: 0,
+          ease: 'none',
+        }, 0);
+      });
+
+      return () => {
+        tl.scrollTrigger?.kill();
+        tl.kill();
+      };
+    }
+
+    return undefined;
+  }, [reducedMotion, isTouch]);
 
   const line1 = [
-    { text: 'Ayo ', accent: false },
+    { text: 'Ayo', accent: false },
     { text: 'Philip', accent: true },
   ];
   const line2 = 'Odongo.';
 
-  let charIndex = 0;
-
-  function renderChars(text: string, accent: boolean) {
-    return text.split('').map((char) => {
-      const idx = charIndex++;
-      return (
+  function renderWord(text: string, accent: boolean, wordIndex: number) {
+    return (
+      <span
+        key={wordIndex}
+        className="split-word"
+        style={{
+          display: 'inline-block',
+          overflow: 'hidden',
+          marginRight: '0.3em',
+          paddingBottom: '0.15em',
+        }}
+      >
         <span
-          key={idx}
-          className={`split-char${accent ? ' hero__name--accent' : ''}`}
+          className={accent ? 'hero__name--accent' : undefined}
           style={{
             display: 'inline-block',
-            whiteSpace: char === ' ' ? 'pre' : undefined,
           }}
         >
-          {char}
+          {text}
         </span>
-      );
-    });
+      </span>
+    );
   }
+
+  let wordIndex = 0;
 
   return (
     <h1 ref={ref} className="hero__name" style={{ perspective: '600px' }}>
-      {line1.map((seg) => renderChars(seg.text, seg.accent))}
+      {line1.map((seg) => renderWord(seg.text, seg.accent, wordIndex++))}
       <br />
-      {renderChars(line2, false)}
+      {renderWord(line2, false, wordIndex++)}
     </h1>
   );
 }
