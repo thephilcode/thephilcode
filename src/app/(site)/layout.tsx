@@ -34,6 +34,7 @@ export const metadata: Metadata = {
     'React developer',
     'Python developer',
     'Ayo Philip Odongo',
+    'Philip Ayo',
     'thephilcode',
   ],
   authors: [{ name: 'Ayo Philip Odongo' }],
@@ -50,7 +51,7 @@ export const metadata: Metadata = {
     ],
     apple: '/favicon/apple-touch-icon.png',
   },
-  manifest: '/site.webmanifest',
+  manifest: '/favicon/site.webmanifest',
   verification: {
     google: 'ROzLIt3HLlrXALgcnFiWr58-3lAmzQIBCVXmzONu2W8',
   },

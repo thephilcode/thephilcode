@@ -1142,6 +1142,8 @@ button {
     border-color var(--dur-fast) var(--ease-standard),
     background-color var(--dur-fast) var(--ease-standard);
   -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
   border-radius: 0;
 }
 
