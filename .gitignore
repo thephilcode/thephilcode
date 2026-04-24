@@ -34,3 +34,7 @@ Thumbs.db
 
 # Documentation
 *.pdf
+plans/
+
+# Media
+public/media

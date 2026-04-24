@@ -1,0 +1,68 @@
+:root {
+  /* Backgrounds */
+  --theme-bg:          #0A0A0A;
+  --theme-input-bg:    #111111;
+  --theme-elevation-0: #0A0A0A;
+  --theme-elevation-1: #111111;
+  --theme-elevation-2: #1A1A1A;
+  --theme-elevation-3: #222222;
+
+  /* Text */
+  --theme-text:        #F5F5F3;
+  --theme-text-muted:  #AAAAAA;
+
+  /* Accent — use gold */
+  --theme-success:     #C8A97E;
+  --theme-success-rgb: 200, 169, 126;
+
+  /* Error stays red — don't override */
+}
+
+/* Sidebar background */
+.nav--theme-dark,
+[class*="nav--"] {
+  background-color: #0D0D0D;
+  border-right: 1px solid rgba(200, 169, 126, 0.12);
+}
+
+/* Active nav item gold accent */
+.nav__link--active,
+.nav__link:hover {
+  color: #C8A97E !important;
+}
+
+/* Table header */
+.cell--header {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #AAAAAA;
+}
+
+/* Save button */
+.btn--style-primary {
+  background-color: #C8A97E !important;
+  color: #0A0A0A !important;
+  border-radius: 0 !important;
+}
+
+/* Remove rounded corners globally (match flat aesthetic) */
+.btn, .field-type, .card, input, select, textarea {
+  border-radius: 0 !important;
+}
+
+/* Dashboard link cards */
+.dashboard-link-card {
+  background: #1A1A1A;
+  padding: 1rem;
+  text-decoration: none;
+  color: #F5F5F3;
+  font-family: var(--font-ui);
+  display: block;
+  transition: box-shadow 0.2s ease;
+}
+
+.dashboard-link-card:hover {
+  box-shadow: 0 0 20px rgba(200, 169, 126, 0.2);
+}

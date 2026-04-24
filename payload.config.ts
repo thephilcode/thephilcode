@@ -19,6 +19,13 @@ export default buildConfig({
     meta: {
       titleSuffix: '— thephilcode',
     },
+    components: {
+      views: {
+        Dashboard: {
+          Component: '/src/components/admin/Dashboard#default',
+        },
+      },
+    },
   },
 
   collections: [Media, Projects, Users],
