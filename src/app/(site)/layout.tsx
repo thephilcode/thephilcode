@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Space_Grotesk, Space_Mono } from 'next/font/google';
 import './globals.css';
 import GSAPProvider from '@/components/animations/GSAPProvider';
+import { Analytics } from '@vercel/analytics/next';
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ['latin'],
@@ -43,6 +44,13 @@ export const metadata: Metadata = {
     title: 'Ayo Philip Odongo — Web Developer',
     description: 'Freelance web developer based in Uganda. Building purposeful digital experiences.',
     url: 'https://thephilcode.vercel.app/',
+    images: [
+      {
+        url: 'https://thephilcode.vercel.app/og-default.png',
+        width: 1200,
+        height: 630,
+      },
+    ],
   },
   icons: {
     icon: [
@@ -71,7 +79,10 @@ export default function SiteLayout({
           rel="stylesheet"
         />
       </head>
-      <body><GSAPProvider>{children}</GSAPProvider></body>
+      <body>
+        <GSAPProvider>{children}</GSAPProvider>
+        <Analytics />
+      </body>
     </html>
   );
 }

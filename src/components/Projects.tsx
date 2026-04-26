@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import type { Project, Media } from '@/payload-types';
 import ScrollReveal from './animations/ScrollReveal';
 import SectionReveal from './animations/SectionReveal';
@@ -136,21 +137,32 @@ export default function Projects({ projects }: ProjectsProps) {
         {featured.length > 0 && (
           <HorizontalScroll>
             {featured.map((project) => (
-              <FeaturedPanel key={project.id} project={project} />
+              <Link
+                key={project.id}
+                href={`/projects/${project.slug}`}
+                className="card__link-wrapper"
+              >
+                <FeaturedPanel project={project} />
+              </Link>
             ))}
           </HorizontalScroll>
         )}
 
-        {rest.length > 0 && (
+              {rest.length > 0 && (
           <div className="container">
             <div className="cards-grid" style={{ marginTop: '2rem' }}>
               {rest.map((project, i) => (
-                <StandardCard
+                <Link
                   key={project.id}
-                  project={project}
-                  delay={i * 80}
-                  direction={i % 2 === 0 ? 'left' : 'right'}
-                />
+                  href={`/projects/${project.slug}`}
+                  className="card__link-wrapper"
+                >
+                  <StandardCard
+                    project={project}
+                    delay={i * 80}
+                    direction={i % 2 === 0 ? 'left' : 'right'}
+                  />
+                </Link>
               ))}
             </div>
           </div>

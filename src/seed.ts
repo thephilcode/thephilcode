@@ -29,6 +29,7 @@ interface SeedProject {
   live: string;
   github: string;
   featured: boolean;
+  slug?: string;
   _status?: 'draft' | 'published';
 }
 
@@ -42,19 +43,19 @@ async function seed() {
   console.log(`Seeding ${projects.length} projects…`);
 
   for (const project of projects) {
-    await payload.create({
-      collection: 'projects',
-      data: {
-        title:       project.title,
-        category:    project.category,
-        year:        project.year,
-        description: project.description,
-        live:        project.live   || null,
-        github:      project.github || null,
-        featured:    project.featured,
-        _status:     project._status || 'published',
-      },
-    });
+     await payload.create({
+       collection: 'projects',
+       data: {
+         title:       project.title,
+         category:    project.category,
+         year:        project.year,
+         description: project.description,
+         live:        project.live   || null,
+         github:      project.github || null,
+         featured:    project.featured,
+         slug:        project.slug  || project.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, ''),
+       },
+     });
     console.log(`  ✓ ${project.title}`);
   }
 

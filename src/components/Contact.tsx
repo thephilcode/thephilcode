@@ -52,6 +52,7 @@ interface ContactProps {
 export default function Contact({ contact }: ContactProps) {
   const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
   const [errorMsg, setErrorMsg] = useState('');
+  const [errors, setErrors] = useState<{ name?: string; email?: string; message?: string }>({});
 
   const intro =
     contact?.intro ??
@@ -65,12 +66,40 @@ export default function Contact({ contact }: ContactProps) {
   const formspreeId = contact?.formspreeId || 'xzdkvkzl';
   const formAction = `https://formspree.io/f/${formspreeId}`;
 
+  function validateForm(form: HTMLFormElement): boolean {
+    const formData = new FormData(form);
+    const name = formData.get('name') as string;
+    const email = formData.get('email') as string;
+    const message = formData.get('message') as string;
+    const newErrors: { name?: string; email?: string; message?: string } = {};
+
+    if (!name || name.trim().length < 2) {
+      newErrors.name = 'Name must be at least 2 characters';
+    }
+
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      newErrors.email = 'Please enter a valid email address';
+    }
+
+    if (!message || message.trim().length < 10) {
+      newErrors.message = 'Message must be at least 10 characters';
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  }
+
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    setStatus('sending');
-    setErrorMsg('');
 
     const form = e.currentTarget;
+
+    if (!validateForm(form)) {
+      return;
+    }
+
+    setStatus('sending');
+    setErrorMsg('');
 
     try {
       const res = await fetch(form.action, {
@@ -81,6 +110,7 @@ export default function Contact({ contact }: ContactProps) {
 
       if (res.ok) {
         form.reset();
+        setErrors({});
         setStatus('success');
         setTimeout(() => setStatus('idle'), 6000);
       } else {
@@ -139,13 +169,14 @@ export default function Contact({ contact }: ContactProps) {
 
           {/* Right — Formspree form */}
           <ScrollReveal delay={160}>
-            <form
-              className="form"
-              action={formAction}
-              method="POST"
-              onSubmit={handleSubmit}
-              noValidate
-            >
+              <form
+                className="form"
+                action={formAction}
+                method="POST"
+                onSubmit={handleSubmit}
+                noValidate
+              >
+                <input type="text" name="_gotcha" style={{ display: 'none' }} tabIndex={-1} autoComplete="off" />
               <div className="form__group">
                 <label htmlFor="name" className="form__label">Name</label>
                 <input
@@ -156,7 +187,13 @@ export default function Contact({ contact }: ContactProps) {
                   placeholder="Your name"
                   required
                   autoComplete="name"
+                  aria-describedby={errors.name ? 'name-error' : undefined}
                 />
+                {errors.name && (
+                  <span id="name-error" className="form__error" role="alert">
+                    {errors.name}
+                  </span>
+                )}
               </div>
 
               <div className="form__group">
@@ -169,7 +206,13 @@ export default function Contact({ contact }: ContactProps) {
                   placeholder="your@email.com"
                   required
                   autoComplete="email"
+                  aria-describedby={errors.email ? 'email-error' : undefined}
                 />
+                {errors.email && (
+                  <span id="email-error" className="form__error" role="alert">
+                    {errors.email}
+                  </span>
+                )}
               </div>
 
               <div className="form__group">
@@ -180,7 +223,13 @@ export default function Contact({ contact }: ContactProps) {
                   className="form__textarea"
                   placeholder="Tell me about your project..."
                   required
+                  aria-describedby={errors.message ? 'message-error' : undefined}
                 />
+                {errors.message && (
+                  <span id="message-error" className="form__error" role="alert">
+                    {errors.message}
+                  </span>
+                )}
               </div>
 
               {status === 'success' && (

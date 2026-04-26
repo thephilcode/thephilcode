@@ -179,6 +179,10 @@ export interface Project {
    */
   github?: string | null;
   /**
+   * Unique URL slug for the project page (e.g., "my-awesome-project")
+   */
+  slug: string;
+  /**
    * Up to 3 featured projects appear with gold corner marks at the top of the Work section.
    */
   featured?: boolean | null;
@@ -322,6 +326,7 @@ export interface ProjectsSelect<T extends boolean = true> {
   thumbnail?: T;
   live?: T;
   github?: T;
+  slug?: T;
   featured?: T;
   updatedAt?: T;
   createdAt?: T;
