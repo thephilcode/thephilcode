@@ -18,10 +18,20 @@ export default buildConfig({
     user: Users.slug,
     meta: {
       titleSuffix: '— thephilcode',
+      icons: [
+        { rel: 'icon', type: 'image/x-icon', url: '/favicon/favicon.ico' },
+        { rel: 'icon', type: 'image/png', sizes: '32x32', url: '/favicon/favicon-32x32.png' },
+        { rel: 'icon', type: 'image/png', sizes: '16x16', url: '/favicon/favicon-16x16.png' },
+        { rel: 'apple-touch-icon', url: '/favicon/apple-touch-icon.png' },
+      ],
     },
     components: {
+      graphics: {
+        Icon: '/src/components/admin/Icon#default',
+        Logo: '/src/components/admin/Logo#default',
+      },
       views: {
-        Dashboard: {
+        dashboard: {
           Component: '/src/components/admin/Dashboard#default',
         },
       },

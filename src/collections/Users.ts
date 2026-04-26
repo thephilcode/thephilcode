@@ -5,7 +5,7 @@ export const Users: CollectionConfig = {
   auth: true,
   admin: {
     hidden: true,
-    useAsTitle: 'email',
+    useAsTitle: 'name',
     description: 'Admin users who can access the CMS dashboard.',
   },
   fields: [
