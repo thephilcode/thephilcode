@@ -30,6 +30,7 @@ export default buildConfig({
         Icon: '/src/components/admin/Icon#default',
         Logo: '/src/components/admin/Logo#default',
       },
+      afterLogin: ['/src/components/admin/LoginPasswordToggle#default'],
       views: {
         dashboard: {
           Component: '/src/components/admin/Dashboard#default',

@@ -409,6 +409,30 @@
   padding-top: 0.5rem;
 }
 
+/* Login password toggle */
+.pass-toggle {
+  position: absolute;
+  right: 0.625rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none !important;
+  cursor: pointer;
+  color: #666666;
+  padding: 0.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.15s ease;
+  border-radius: 0 !important;
+  outline: none;
+}
+
+.pass-toggle:hover,
+.pass-toggle[data-visible] {
+  color: #C8A97E;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
   .dash-top-grid {
