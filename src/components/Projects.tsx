@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import type { Project, Media } from '@/payload-types';
 import ScrollReveal from './animations/ScrollReveal';
 import SectionReveal from './animations/SectionReveal';
@@ -64,56 +65,6 @@ function CardThumbnail({ thumbnail, title }: { thumbnail: Project['thumbnail']; 
   );
 }
 
-function FeaturedPanel({ project }: { project: Project }) {
-  return (
-    <div className="hscroll__panel">
-      <TiltCard className="card--featured card--featured-panel" maxTilt={4}>
-        <span className="corner corner--tl" aria-hidden="true" />
-        <span className="corner corner--tr" aria-hidden="true" />
-        <span className="corner corner--bl" aria-hidden="true" />
-        <span className="corner corner--br" aria-hidden="true" />
-
-        {project.thumbnail && (
-          <CardThumbnail thumbnail={project.thumbnail} title={project.title} />
-        )}
-
-        <div>
-          <p className="card__badge">Featured Project</p>
-          <h3 className="card__title card__title--lg">{project.title}</h3>
-          <p className="card__meta">
-            {project.category} &middot; {project.year}
-          </p>
-        </div>
-
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-          <p className="card__description">{project.description}</p>
-          <CardLinks live={project.live} github={project.github} />
-        </div>
-      </TiltCard>
-    </div>
-  );
-}
-
-function StandardCard({ project, delay, direction }: { project: Project; delay: number; direction: 'left' | 'right' }) {
-  return (
-    <ScrollReveal delay={delay} direction={direction}>
-      <TiltCard className="card">
-        {project.thumbnail && (
-          <CardThumbnail thumbnail={project.thumbnail} title={project.title} />
-        )}
-        <div>
-          <p className="card__meta">
-            {project.category} &middot; {project.year}
-          </p>
-          <h3 className="card__title">{project.title}</h3>
-        </div>
-        <p className="card__description">{project.description}</p>
-        <CardLinks live={project.live} github={project.github} />
-      </TiltCard>
-    </ScrollReveal>
-  );
-}
-
 interface ProjectsProps {
   projects: Project[];
 }
@@ -136,21 +87,64 @@ export default function Projects({ projects }: ProjectsProps) {
         {featured.length > 0 && (
           <HorizontalScroll>
             {featured.map((project) => (
-              <FeaturedPanel key={project.id} project={project} />
+              <div key={project.id} className="hscroll__panel">
+                <Link
+                  href={`/projects/${project.slug}`}
+                  className="card__link-wrapper"
+                >
+                  <TiltCard className="card--featured card--featured-panel" maxTilt={4}>
+                    <span className="corner corner--tl" aria-hidden="true" />
+                    <span className="corner corner--tr" aria-hidden="true" />
+                    <span className="corner corner--bl" aria-hidden="true" />
+                    <span className="corner corner--br" aria-hidden="true" />
+
+                    {project.thumbnail && (
+                      <CardThumbnail thumbnail={project.thumbnail} title={project.title} />
+                    )}
+
+                    <div>
+                      <p className="card__badge">Featured Project</p>
+                      <h3 className="card__title card__title--lg">{project.title}</h3>
+                      <p className="card__meta">
+                        {project.category} &middot; {project.year}
+                      </p>
+                    </div>
+
+                    <p className="card__description">{project.description}</p>
+                  </TiltCard>
+                </Link>
+                <CardLinks live={project.live} github={project.github} />
+              </div>
             ))}
           </HorizontalScroll>
         )}
 
-        {rest.length > 0 && (
+              {rest.length > 0 && (
           <div className="container">
             <div className="cards-grid" style={{ marginTop: '2rem' }}>
               {rest.map((project, i) => (
-                <StandardCard
-                  key={project.id}
-                  project={project}
-                  delay={i * 80}
-                  direction={i % 2 === 0 ? 'left' : 'right'}
-                />
+                <div key={project.id} style={{ display: 'flex', flexDirection: 'column', gap: '0' }}>
+                  <ScrollReveal delay={i * 80} direction={i % 2 === 0 ? 'left' : 'right'}>
+                    <Link
+                      href={`/projects/${project.slug}`}
+                      className="card__link-wrapper"
+                    >
+                      <TiltCard className="card">
+                        {project.thumbnail && (
+                          <CardThumbnail thumbnail={project.thumbnail} title={project.title} />
+                        )}
+                        <div>
+                          <p className="card__meta">
+                            {project.category} &middot; {project.year}
+                          </p>
+                          <h3 className="card__title">{project.title}</h3>
+                        </div>
+                        <p className="card__description">{project.description}</p>
+                      </TiltCard>
+                    </Link>
+                  </ScrollReveal>
+                  <CardLinks live={project.live} github={project.github} />
+                </div>
               ))}
             </div>
           </div>

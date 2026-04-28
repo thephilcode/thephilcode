@@ -6,7 +6,7 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       { protocol: 'http', hostname: 'localhost' },
       { protocol: 'https', hostname: '*.vercel.app' },
-      { protocol: 'https', hostname: 'thephilcode.com' },
+      { protocol: 'https', hostname: 'thephilcode.vercel.app' },
     ],
   },
   async headers() {

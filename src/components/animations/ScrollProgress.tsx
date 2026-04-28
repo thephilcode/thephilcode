@@ -2,7 +2,6 @@
 
 import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 export default function ScrollProgress() {
   const barRef = useRef<HTMLDivElement>(null);
@@ -13,17 +12,18 @@ export default function ScrollProgress() {
     const glow = glowRef.current;
     if (!bar || !glow) return;
 
-    const trigger = ScrollTrigger.create({
-      trigger: document.documentElement,
-      start: 'top top',
-      end: 'bottom bottom',
-      onUpdate: (self) => {
-        gsap.set(bar, { scaleX: self.progress });
-        gsap.to(glow, { scaleX: self.progress, duration: 0.15, ease: 'power2.out' });
-      },
-    });
+    const updateProgress = () => {
+      const windowHeight = window.innerHeight;
+      const docHeight = document.documentElement.scrollHeight - windowHeight;
+      const scrolled = window.scrollY;
+      const progress = docHeight > 0 ? scrolled / docHeight : 0;
 
-    return () => trigger.kill();
+      gsap.set(bar, { scaleX: progress });
+      gsap.to(glow, { scaleX: progress, duration: 0.15, ease: 'power2.out' });
+    };
+
+    window.addEventListener('scroll', updateProgress, { passive: true });
+    return () => window.removeEventListener('scroll', updateProgress);
   }, []);
 
   const shared: React.CSSProperties = {

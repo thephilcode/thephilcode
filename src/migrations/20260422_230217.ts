@@ -40,7 +40,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   
   CREATE TABLE "about_settings_stack_items" (
   	"_order" integer NOT NULL,
-  	"_parent_id" varchar NOT NULL,
+  	"_parent_id" integer NOT NULL,
   	"id" varchar PRIMARY KEY NOT NULL,
   	"tag" varchar NOT NULL
   );

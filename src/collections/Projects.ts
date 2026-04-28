@@ -79,6 +79,15 @@ export const Projects: CollectionConfig = {
       },
     },
     {
+      name: 'slug',
+      type: 'text',
+      unique: true,
+      required: true,
+      admin: {
+        description: 'Unique URL slug for the project page (e.g., "my-awesome-project")',
+      },
+    },
+    {
       name: 'featured',
       type: 'checkbox',
       label: 'Featured Project',

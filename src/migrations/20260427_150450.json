@@ -1,0 +1,19 @@
+{
+  "version": 8,
+  "dialect": "postgresql",
+  "tables": {},
+  "additions": [
+    {
+      "sql": "ALTER TABLE \"projects\" ADD COLUMN \"slug\" varchar;",
+      "rollbackSQL": ["ALTER TABLE \"projects\" DROP COLUMN \"slug\";"]
+    },
+    {
+      "sql": "ALTER TABLE \"_projects_v\" ADD COLUMN \"version_slug\" varchar;",
+      "rollbackSQL": ["ALTER TABLE \"_projects_v\" DROP COLUMN \"version_slug\";"]
+    },
+    {
+      "sql": "CREATE UNIQUE INDEX \"projects_slug_idx\" ON \"projects\" USING btree (\"slug\");",
+      "rollbackSQL": ["DROP INDEX \"projects_slug_idx\";"]
+    }
+  ]
+}

@@ -11,6 +11,7 @@ export default function Logo() {
           fontSize: '3.125rem',
           fontWeight: 'bold',
           letterSpacing: '0.02em',
+          paddingLeft: '10px',
         }}
       >
         thephilcode
