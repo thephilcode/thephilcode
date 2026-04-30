@@ -19,6 +19,7 @@ const spaceMono = Space_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SERVER_URL ?? 'https://thephilcode.vercel.app'),
   title: 'Ayo Philip Odongo — Web Developer',
   description:
     'Freelance web developer based in Uganda. I build purposeful digital experiences for organisations, schools, and businesses.',

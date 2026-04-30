@@ -619,6 +619,11 @@ button {
 }
 
 .form__error {
+  color: var(--color-gold);
+  font-size: 0.75rem;
+  margin-top: 0.25rem;
+  display: block;
+}
 
 /* Scroll hint */
 .hero__scroll-hint {
@@ -638,11 +643,6 @@ button {
   text-transform: uppercase;
   animation: scrollBounce 2s var(--ease-standard) infinite;
   text-decoration: none;
-}
-  color: var(--color-gold);
-  font-size: 0.75rem;
-  margin-top: 0.25rem;
-  display: block;
 }
 
 .form__textarea {

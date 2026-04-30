@@ -116,29 +116,29 @@ export default function Contact({ contact }: ContactProps) {
     setErrorMsg('');
 
     try {
-      // Get Turnstile token from the widget
-      const token = (window as TurnstileWindow).turnstile?.getResponse();
-      if (!token) {
-        setErrorMsg('Please complete the CAPTCHA.');
-        setStatus('error');
-        setTimeout(() => setStatus('idle'), 6000);
-        return;
-      }
-
       const formData = new FormData(form);
-      formData.append('cf-turnstile-response', token);
+      const token = (window as TurnstileWindow).turnstile?.getResponse();
+
+      const body: Record<string, string> = {
+        name: formData.get('name') as string,
+        email: formData.get('email') as string,
+        message: formData.get('message') as string,
+      };
+      if (token) body['cf-turnstile-response'] = token;
 
       const res = await fetch(form.action, {
         method: 'POST',
-        body: formData,
-        headers: { Accept: 'application/json' },
+        body: JSON.stringify(body),
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
       });
 
       if (res.ok) {
         form.reset();
         setErrors({});
         setStatus('success');
-        // Reset Turnstile widget
         (window as TurnstileWindow).turnstile?.reset();
         setTimeout(() => setStatus('idle'), 6000);
       } else {
@@ -148,7 +148,6 @@ export default function Contact({ contact }: ContactProps) {
           'Something went wrong. Please try again.';
         setErrorMsg(msg);
         setStatus('error');
-        // Reset Turnstile on error so user can retry
         (window as TurnstileWindow).turnstile?.reset();
         setTimeout(() => setStatus('idle'), 6000);
       }
