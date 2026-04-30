@@ -10,7 +10,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
         CREATE UNIQUE INDEX "projects_slug_idx" ON "projects" USING btree ("slug");
         CREATE INDEX "_projects_v_version_version_slug_idx" ON "_projects_v" USING btree ("version_slug");
       END IF;
-    END $$);
+    END $$;
   `);
 }
 
@@ -24,6 +24,6 @@ export async function down({ db, payload, req }: MigrateDownArgs): Promise<void>
         ALTER TABLE "projects" DROP COLUMN IF EXISTS "slug";
         ALTER TABLE "_projects_v" DROP COLUMN IF EXISTS "version_slug";
       END IF;
-    END $$);
+    END $$;
   `);
 }
