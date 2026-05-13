@@ -1,4 +1,5 @@
 import type { CollectionConfig } from 'payload';
+import { slugify } from '@/lib/slugify';
 
 const validateURL = (value: string | null | undefined) => {
   if (!value) return true;
@@ -26,6 +27,16 @@ export const Projects: CollectionConfig = {
   },
   versions: {
     drafts: true,
+  },
+  hooks: {
+    beforeChange: [
+      ({ data, operation }) => {
+        if (operation === 'create' && data.title && !data.slug) {
+          data.slug = slugify(data.title);
+        }
+        return data;
+      },
+    ],
   },
   fields: [
     {
@@ -84,7 +95,7 @@ export const Projects: CollectionConfig = {
       unique: true,
       required: true,
       admin: {
-        description: 'Unique URL slug for the project page (e.g., "my-awesome-project")',
+        description: 'Auto-generated from project name. Unique URL slug for the project page (e.g., "my-awesome-project")',
       },
     },
     {

@@ -88,63 +88,67 @@ export default function Projects({ projects }: ProjectsProps) {
           <HorizontalScroll>
             {featured.map((project) => (
               <div key={project.id} className="hscroll__panel">
-                <Link
-                  href={`/projects/${project.slug}`}
-                  className="card__link-wrapper"
-                >
-                  <TiltCard className="card--featured card--featured-panel" maxTilt={4}>
-                    <span className="corner corner--tl" aria-hidden="true" />
-                    <span className="corner corner--tr" aria-hidden="true" />
-                    <span className="corner corner--bl" aria-hidden="true" />
-                    <span className="corner corner--br" aria-hidden="true" />
+                <TiltCard className="card--featured card--featured-panel" maxTilt={4}>
+                  <span className="corner corner--tl" aria-hidden="true" />
+                  <span className="corner corner--tr" aria-hidden="true" />
+                  <span className="corner corner--bl" aria-hidden="true" />
+                  <span className="corner corner--br" aria-hidden="true" />
 
-                    {project.thumbnail && (
-                      <CardThumbnail thumbnail={project.thumbnail} title={project.title} />
-                    )}
+                  {project.thumbnail && (
+                    <CardThumbnail thumbnail={project.thumbnail} title={project.title} />
+                  )}
 
-                    <div>
-                      <p className="card__badge">Featured Project</p>
-                      <h3 className="card__title card__title--lg">{project.title}</h3>
-                      <p className="card__meta">
-                        {project.category} &middot; {project.year}
-                      </p>
-                    </div>
+                  <div>
+                    <p className="card__badge">Featured Project</p>
+                    <h3 className="card__title card__title--lg">
+                      {project.slug ? (
+                        <Link href={`/projects/${project.slug}`} className="card__title-link">
+                          {project.title}
+                        </Link>
+                      ) : (
+                        project.title
+                      )}
+                    </h3>
+                    <p className="card__meta">
+                      {project.category} &middot; {project.year}
+                    </p>
+                  </div>
 
-                    <p className="card__description">{project.description}</p>
-                  </TiltCard>
-                </Link>
-                <CardLinks live={project.live} github={project.github} />
+                  <p className="card__description">{project.description}</p>
+                  <CardLinks live={project.live} github={project.github} />
+                </TiltCard>
               </div>
             ))}
           </HorizontalScroll>
         )}
 
-              {rest.length > 0 && (
+        {rest.length > 0 && (
           <div className="container">
             <div className="cards-grid" style={{ marginTop: '2rem' }}>
               {rest.map((project, i) => (
-                <div key={project.id} style={{ display: 'flex', flexDirection: 'column', gap: '0' }}>
-                  <ScrollReveal delay={i * 80} direction={i % 2 === 0 ? 'left' : 'right'}>
-                    <Link
-                      href={`/projects/${project.slug}`}
-                      className="card__link-wrapper"
-                    >
-                      <TiltCard className="card">
-                        {project.thumbnail && (
-                          <CardThumbnail thumbnail={project.thumbnail} title={project.title} />
+                <ScrollReveal key={project.id} delay={i * 80} direction={i % 2 === 0 ? 'left' : 'right'}>
+                  <TiltCard className="card">
+                    {project.thumbnail && (
+                      <CardThumbnail thumbnail={project.thumbnail} title={project.title} />
+                    )}
+                    <div>
+                      <p className="card__meta">
+                        {project.category} &middot; {project.year}
+                      </p>
+                      <h3 className="card__title">
+                        {project.slug ? (
+                          <Link href={`/projects/${project.slug}`} className="card__title-link">
+                            {project.title}
+                          </Link>
+                        ) : (
+                          project.title
                         )}
-                        <div>
-                          <p className="card__meta">
-                            {project.category} &middot; {project.year}
-                          </p>
-                          <h3 className="card__title">{project.title}</h3>
-                        </div>
-                        <p className="card__description">{project.description}</p>
-                      </TiltCard>
-                    </Link>
-                  </ScrollReveal>
-                  <CardLinks live={project.live} github={project.github} />
-                </div>
+                      </h3>
+                    </div>
+                    <p className="card__description">{project.description}</p>
+                    <CardLinks live={project.live} github={project.github} />
+                  </TiltCard>
+                </ScrollReveal>
               ))}
             </div>
           </div>

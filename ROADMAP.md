@@ -50,7 +50,16 @@
 - [x] Replace all Payload branding — favicon, nav icon, login logo (custom SVG icon + thephilcode logotype)
 
 ### Phase D — Growth
-- [ ] SEO improvements (dynamic OG images, per-project pages)
+- [x] SEO improvements (dynamic OG images, per-project pages)
+- [x] Custom 404 page (global `app/not-found.tsx`; imports design system CSS directly)
 - [ ] Analytics integration (dashboard analytics card — placeholder reserved in Phase C redesign)
-- [ ] Formspree CAPTCHA (contact form UX polish)
+- [x] Formspree CAPTCHA (contact form UX polish — Cloudflare Turnstile integrated, testable on live domain)
 - [ ] Media cloud storage — swap local filesystem adapter for S3/Cloudflare R2 (`@payloadcms/storage-s3`); required before any deployment to an ephemeral filesystem (Vercel, etc.)
+
+### Phase E — Projects expansion
+- [ ] Add optional `body` richText field to Projects collection — full write-up for bigger projects (case study format); project detail page shows `body` if present, falls back to `description`
+- [ ] `description` stays as `textarea` (plain text) — used on cards and as SEO meta description
+- [ ] Dedicated `/projects` page — full grid of all projects, filterable by category, "Load More" (show 9, reveal more client-side; all content in DOM for SEO)
+- [ ] Move non-featured project grid off homepage; homepage shows featured horizontal scroll only + "See all projects →" link to `/projects`
+- [ ] Update "Work" nav link from `#work` anchor to `/projects` route
+- [ ] Auto-generate slugs on project creation (done ✅ — `beforeChange` hook in Projects collection)

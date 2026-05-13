@@ -3,6 +3,7 @@ import { Space_Grotesk, Space_Mono } from 'next/font/google';
 import './globals.css';
 import GSAPProvider from '@/components/animations/GSAPProvider';
 import { Analytics } from '@vercel/analytics/next';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ['latin'],
@@ -80,10 +81,18 @@ export default function SiteLayout({
           href="https://api.fontshare.com/v2/css?f[]=satoshi@900,700,500,400&display=swap"
           rel="stylesheet"
         />
+        {process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID && (
+          <script
+            defer
+            src="https://cloud.umami.is/script.js"
+            data-website-id={process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID}
+          />
+        )}
       </head>
       <body>
         <GSAPProvider>{children}</GSAPProvider>
         <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );

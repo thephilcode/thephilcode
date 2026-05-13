@@ -230,6 +230,95 @@
   color: rgba(170, 170, 170, 0.3);
 }
 
+/* Analytics card — live data */
+.dash-analytics-period {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(85, 85, 85, 0.7);
+  margin-top: 0.25rem;
+  margin-bottom: 0.75rem;
+}
+
+.dash-analytics-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.dash-analytics-stat-value {
+  font-family: 'Space Mono', monospace;
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #C8A97E;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+.dash-analytics-stat-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.58rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #555555;
+  margin-top: 0.2rem;
+}
+
+.dash-analytics-pages-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #555555;
+  padding-top: 0.75rem;
+  margin-bottom: 0.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.dash-analytics-pages {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.dash-analytics-page {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.dash-analytics-page-url {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.65rem;
+  color: #AAAAAA;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.dash-analytics-page-count {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.65rem;
+  color: #C8A97E;
+  flex-shrink: 0;
+}
+
+.dash-analytics-unavailable {
+  flex: 1;
+  min-height: 160px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(170, 170, 170, 0.3);
+}
+
 /* Section labels */
 .dash-section {
   display: flex;
