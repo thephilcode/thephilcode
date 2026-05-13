@@ -179,7 +179,7 @@ export interface Project {
    */
   github?: string | null;
   /**
-   * Unique URL slug for the project page (e.g., "my-awesome-project")
+   * Auto-generated from project name. Unique URL slug for the project page (e.g., "my-awesome-project")
    */
   slug: string;
   /**

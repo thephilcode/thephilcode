@@ -30,10 +30,10 @@ export async function generateMetadata(
 
   return {
     title: `${project.title} — Ayo Philip Odongo`,
-    description: project.description,
+    description: `${project.description}`,
     openGraph: {
       title: `${project.title} — Ayo Philip Odongo`,
-      description: project.description,
+      description: `${project.description}`,
       type: 'website',
       url: `https://thephilcode.vercel.app/projects/${project.slug}`,
       images: thumbnail?.url

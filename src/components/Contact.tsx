@@ -12,8 +12,10 @@ type SocialPlatform = 'github' | 'linkedin' | 'linktree' | 'twitter' | 'other';
 
 interface TurnstileWindow extends Window {
   turnstile?: {
-    getResponse: () => string | undefined;
-    reset: () => void;
+    render: (container: string | HTMLElement, params: Record<string, unknown>) => string;
+    getResponse: (widgetId?: string) => string | undefined;
+    reset: (widgetId?: string) => void;
+    remove: (widgetId?: string) => void;
   };
 }
 
@@ -60,11 +62,43 @@ export default function Contact({ contact }: ContactProps) {
   const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
   const [errorMsg, setErrorMsg] = useState('');
   const [errors, setErrors] = useState<{ name?: string; email?: string; message?: string }>({});
-  const [isHydrated, setIsHydrated] = useState(false);
   const turnstileRef = useRef<HTMLDivElement>(null);
+  const widgetIdRef = useRef<string | null>(null);
 
   useEffect(() => {
-    setIsHydrated(true);
+    const el = turnstileRef.current;
+    if (!el) return;
+    const siteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
+    if (!siteKey) return;
+
+    function tryRender() {
+      const tw = window as TurnstileWindow;
+      if (!tw.turnstile || !el) return;
+      if (widgetIdRef.current !== null) return;
+      try {
+        widgetIdRef.current = tw.turnstile.render(el, {
+          sitekey: siteKey,
+          theme: 'dark',
+          'error-callback': () => {
+            widgetIdRef.current = null;
+          },
+        });
+      } catch {
+        // Turnstile failed to render (e.g. origin mismatch on localhost)
+      }
+    }
+
+    if ((window as TurnstileWindow).turnstile) {
+      tryRender();
+    } else {
+      const interval = setInterval(() => {
+        if ((window as TurnstileWindow).turnstile) {
+          tryRender();
+          clearInterval(interval);
+        }
+      }, 200);
+      return () => clearInterval(interval);
+    }
   }, []);
 
   const intro =
@@ -117,7 +151,8 @@ export default function Contact({ contact }: ContactProps) {
 
     try {
       const formData = new FormData(form);
-      const token = (window as TurnstileWindow).turnstile?.getResponse();
+      const tw = (window as TurnstileWindow).turnstile;
+      const token = tw?.getResponse(widgetIdRef.current ?? undefined);
 
       const body: Record<string, string> = {
         name: formData.get('name') as string,
@@ -139,19 +174,28 @@ export default function Contact({ contact }: ContactProps) {
         form.reset();
         setErrors({});
         setStatus('success');
-        (window as TurnstileWindow).turnstile?.reset();
+        tw?.reset(widgetIdRef.current ?? undefined);
         setTimeout(() => setStatus('idle'), 6000);
       } else {
-        const data = await res.json().catch(() => ({}));
-        const msg: string =
-          (data as { errors?: { message: string }[] })?.errors?.map(err => err.message).join(', ') ||
+        const data = await res.json().catch(() => ({})) as {
+          error?: string;
+          errors?: { field?: string; message: string; code: string }[];
+        };
+        console.error('[Contact form] Formspree response:', res.status, data);
+        let msg =
+          data?.errors?.map(err => err.message).join(', ') ||
+          data?.error ||
           'Something went wrong. Please try again.';
+        if (msg.toLowerCase().includes('turnstile')) {
+          msg = 'CAPTCHA verification failed. Please refresh and try again.';
+        }
         setErrorMsg(msg);
         setStatus('error');
-        (window as TurnstileWindow).turnstile?.reset();
+        tw?.reset(widgetIdRef.current ?? undefined);
         setTimeout(() => setStatus('idle'), 6000);
       }
-    } catch {
+    } catch (err) {
+      console.error('[Contact form]', err);
       setErrorMsg('Network error. Please try again.');
       setStatus('error');
       setTimeout(() => setStatus('idle'), 6000);
@@ -272,15 +316,8 @@ export default function Contact({ contact }: ContactProps) {
                 </p>
               )}
 
-              {/* Cloudflare Turnstile CAPTCHA */}
-              {isHydrated && (
-                <div
-                  ref={turnstileRef}
-                  className="cf-turnstile"
-                  data-sitekey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY}
-                  data-theme="dark"
-                />
-              )}
+              {/* Cloudflare Turnstile CAPTCHA — rendered explicitly via useEffect */}
+              <div ref={turnstileRef} />
 
               <MagneticButton
                 as="button"
