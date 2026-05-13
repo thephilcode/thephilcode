@@ -1,9 +1,4 @@
-import path from 'path';
-import { fileURLToPath } from 'url';
 import type { CollectionConfig } from 'payload';
-
-const filename = fileURLToPath(import.meta.url);
-const dirname = path.dirname(filename);
 
 export const Media: CollectionConfig = {
   slug: 'media',
@@ -14,7 +9,6 @@ export const Media: CollectionConfig = {
     delete: ({ req }) => !!req.user,
   },
   upload: {
-    staticDir: path.resolve(dirname, '../../public/media'),
     mimeTypes: ['image/jpeg', 'image/png', 'image/webp', 'image/gif', 'image/svg+xml'],
   },
   admin: {

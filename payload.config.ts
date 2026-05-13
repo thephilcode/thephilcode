@@ -3,6 +3,7 @@ import { fileURLToPath } from 'url';
 import { buildConfig } from 'payload';
 import { postgresAdapter } from '@payloadcms/db-postgres';
 import { lexicalEditor } from '@payloadcms/richtext-lexical';
+import { s3Storage } from '@payloadcms/storage-s3';
 import { Media } from './src/collections/Media';
 import { Projects } from './src/collections/Projects';
 import { Users } from './src/collections/Users';
@@ -13,7 +14,30 @@ import { ContactSettings } from './src/globals/ContactSettings';
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
 
+function requireEnv(name: string): string {
+  const value = process.env[name];
+  if (!value) throw new Error(`${name} environment variable is required`);
+  return value;
+}
+
 export default buildConfig({
+  plugins: [
+    s3Storage({
+      collections: {
+        media: true,
+      },
+      bucket: requireEnv('R2_BUCKET'),
+      config: {
+        endpoint: requireEnv('R2_ENDPOINT'),
+        region: 'auto',
+        credentials: {
+          accessKeyId: requireEnv('R2_ACCESS_KEY_ID'),
+          secretAccessKey: requireEnv('R2_SECRET_ACCESS_KEY'),
+        },
+      },
+    }),
+  ],
+
   admin: {
     user: Users.slug,
     meta: {
