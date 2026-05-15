@@ -52,14 +52,30 @@
 ### Phase D — Growth
 - [x] SEO improvements (dynamic OG images, per-project pages)
 - [x] Custom 404 page (global `app/not-found.tsx`; imports design system CSS directly)
-- [ ] Analytics integration (dashboard analytics card — placeholder reserved in Phase C redesign)
-- [x] Formspree CAPTCHA (contact form UX polish — Cloudflare Turnstile integrated, testable on live domain)
-- [ ] Media cloud storage — swap local filesystem adapter for S3/Cloudflare R2 (`@payloadcms/storage-s3`); required before any deployment to an ephemeral filesystem (Vercel, etc.)
+- [x] Analytics integration (dashboard analytics card — placeholder reserved in Phase C redesign)
+- [x] Cloudflare Turnstile CAPTCHA on contact form (testable on live domain only — skipped on localhost)
+- [x] Media cloud storage — swap local filesystem adapter for S3/Cloudflare R2 (`@payloadcms/storage-s3`); required before any deployment to an ephemeral filesystem (Vercel, etc.)
+- [x] Migrate contact form from Formspree → Resend + Payload (`/api/contact` Route Handler; Turnstile verified server-side; submissions saved to Payload `Submissions` collection; notification email via Resend)
 
-### Phase E — Projects expansion
-- [ ] Add optional `body` richText field to Projects collection — full write-up for bigger projects (case study format); project detail page shows `body` if present, falls back to `description`
-- [ ] `description` stays as `textarea` (plain text) — used on cards and as SEO meta description
-- [ ] Dedicated `/projects` page — full grid of all projects, filterable by category, "Load More" (show 9, reveal more client-side; all content in DOM for SEO)
-- [ ] Move non-featured project grid off homepage; homepage shows featured horizontal scroll only + "See all projects →" link to `/projects`
-- [ ] Update "Work" nav link from `#work` anchor to `/projects` route
-- [ ] Auto-generate slugs on project creation (done ✅ — `beforeChange` hook in Projects collection)
+### Phase E — Projects expansion ✅
+- [x] Add optional `body` richText field to Projects collection — full write-up for bigger projects (case study format); project detail page shows `body` if present, falls back to `description`
+- [x] `description` stays as `textarea` (plain text) — used on cards and as SEO meta description
+- [x] Dedicated `/projects` page — full grid of all projects, "Load More" (show 9, reveal more client-side; all content in DOM for SEO)
+- [x] Move non-featured project grid off homepage; homepage shows featured horizontal scroll only + "See all projects →" link to `/projects`
+- [x] Update "Work" nav link from `#work` anchor to `/projects` route
+- [x] Auto-generate slugs on project creation (`beforeChange` hook in Projects collection)
+
+### Phase F — Blog
+- [ ] `Posts` Payload collection: title, slug (auto-generated), body (richText/Lexical), excerpt (textarea), coverImage (upload), tags (array of text), publishedAt (date), status (draft/published)
+- [ ] `/blog` listing page — card grid, sorted by date, "Load More" pattern (same as `/projects`)
+- [ ] `/blog/[slug]` detail page — cover image hero, reading time estimate, richText body rendered via `LexicalContent` component, back link
+- [ ] "Blog" nav link (alongside Work, About, Contact)
+- [ ] RSS feed at `/feed.xml` — auto-generated from published posts
+- [ ] OG image + metadata per post (title, excerpt as description)
+
+### Future additions
+- [ ] **Project category filtering** — filter bar on `/projects` page; single `useState` + CSS show/hide; no new pages
+- [ ] **Availability badge** — "Open to work / Currently busy" toggle in Payload globals; rendered in hero or nav
+- [ ] **Resume PDF download** — link in nav or hero; PDF hosted in R2 or as a static asset
+- [ ] **Newsletter** — email capture form using Resend audience/broadcasts; one new Route Handler, one new component
+- [ ] **Reading time** — word-count estimate shown on blog post cards and detail pages (already planned for Phase F)
