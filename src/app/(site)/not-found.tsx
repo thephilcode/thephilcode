@@ -3,7 +3,6 @@
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import MagneticButton from '@/components/animations/MagneticButton';
-import './(site)/globals.css';
 
 const PARTICLES = [
   { left: '12%', top: '18%', dur: 3.0, delay: 0.0 },
@@ -80,7 +79,7 @@ export default function NotFound() {
             </svg>
             Back to Home
           </MagneticButton>
-          <MagneticButton as="a" href="/#work" className="btn btn-outline">
+          <MagneticButton as="a" href="/projects" className="btn btn-outline">
             View Work
           </MagneticButton>
         </div>

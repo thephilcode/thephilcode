@@ -69,6 +69,7 @@ export interface Config {
   collections: {
     media: Media;
     projects: Project;
+    submissions: Submission;
     users: User;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
@@ -79,6 +80,7 @@ export interface Config {
   collectionsSelect: {
     media: MediaSelect<false> | MediaSelect<true>;
     projects: ProjectsSelect<false> | ProjectsSelect<true>;
+    submissions: SubmissionsSelect<false> | SubmissionsSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
@@ -167,6 +169,24 @@ export interface Project {
   year: string;
   description: string;
   /**
+   * Optional. Full case-study write-up shown on the project detail page. Falls back to description if empty.
+   */
+  body?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  /**
    * Preview image shown at the top of the project card.
    */
   thumbnail?: (number | null) | Media;
@@ -189,6 +209,20 @@ export interface Project {
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
+}
+/**
+ * Contact form submissions from the portfolio site.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "submissions".
+ */
+export interface Submission {
+  id: number;
+  name: string;
+  email: string;
+  message: string;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * Admin users who can access the CMS dashboard.
@@ -249,6 +283,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'projects';
         value: number | Project;
+      } | null)
+    | ({
+        relationTo: 'submissions';
+        value: number | Submission;
       } | null)
     | ({
         relationTo: 'users';
@@ -323,6 +361,7 @@ export interface ProjectsSelect<T extends boolean = true> {
   category?: T;
   year?: T;
   description?: T;
+  body?: T;
   thumbnail?: T;
   live?: T;
   github?: T;
@@ -331,6 +370,17 @@ export interface ProjectsSelect<T extends boolean = true> {
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "submissions_select".
+ */
+export interface SubmissionsSelect<T extends boolean = true> {
+  name?: T;
+  email?: T;
+  message?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -472,7 +522,7 @@ export interface AboutSetting {
   createdAt?: string | null;
 }
 /**
- * Controls the Contact section intro text, social links, and Formspree ID.
+ * Controls the Contact section intro text and social links.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "contact-settings".
@@ -491,10 +541,6 @@ export interface ContactSetting {
         id?: string | null;
       }[]
     | null;
-  /**
-   * The ID portion of your Formspree form URL (e.g. for formspree.io/f/xzdkvkzl enter "xzdkvkzl").
-   */
-  formspreeId?: string | null;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -567,7 +613,6 @@ export interface ContactSettingsSelect<T extends boolean = true> {
         url?: T;
         id?: T;
       };
-  formspreeId?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;

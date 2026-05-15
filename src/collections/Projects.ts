@@ -63,6 +63,14 @@ export const Projects: CollectionConfig = {
       required: true,
     },
     {
+      name: 'body',
+      type: 'richText',
+      label: 'Case Study Body',
+      admin: {
+        description: 'Optional. Full case-study write-up shown on the project detail page. Falls back to description if empty.',
+      },
+    },
+    {
       name: 'thumbnail',
       type: 'upload',
       relationTo: 'media',

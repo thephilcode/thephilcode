@@ -1,7 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import type { Project, Media } from '@/payload-types';
-import ScrollReveal from './animations/ScrollReveal';
 import SectionReveal from './animations/SectionReveal';
 import SectionTitleReveal from './animations/SectionTitleReveal';
 import HorizontalScroll from './animations/HorizontalScroll';
@@ -71,7 +70,6 @@ interface ProjectsProps {
 
 export default function Projects({ projects }: ProjectsProps) {
   const featured = projects.filter(p => p.featured).slice(0, 3);
-  const rest     = projects.filter(p => !p.featured);
 
   return (
     <section id="work" className="section" aria-label="Work">
@@ -122,37 +120,16 @@ export default function Projects({ projects }: ProjectsProps) {
           </HorizontalScroll>
         )}
 
-        {rest.length > 0 && (
-          <div className="container">
-            <div className="cards-grid" style={{ marginTop: '2rem' }}>
-              {rest.map((project, i) => (
-                <ScrollReveal key={project.id} delay={i * 80} direction={i % 2 === 0 ? 'left' : 'right'}>
-                  <TiltCard className="card">
-                    {project.thumbnail && (
-                      <CardThumbnail thumbnail={project.thumbnail} title={project.title} />
-                    )}
-                    <div>
-                      <p className="card__meta">
-                        {project.category} &middot; {project.year}
-                      </p>
-                      <h3 className="card__title">
-                        {project.slug ? (
-                          <Link href={`/projects/${project.slug}`} className="card__title-link">
-                            {project.title}
-                          </Link>
-                        ) : (
-                          project.title
-                        )}
-                      </h3>
-                    </div>
-                    <p className="card__description">{project.description}</p>
-                    <CardLinks live={project.live} github={project.github} />
-                  </TiltCard>
-                </ScrollReveal>
-              ))}
-            </div>
+        <div className="container">
+          <div className="see-all-wrap">
+            <Link href="/projects" className="see-all-link">
+              See all projects
+              <svg width="14" height="14" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                <path d="M1 11L11 1M11 1H4M11 1V8" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </Link>
           </div>
-        )}
+        </div>
       </SectionReveal>
     </section>
   );

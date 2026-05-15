@@ -23,6 +23,66 @@ export async function generateStaticParams() {
     .map((project) => ({ slug: project.slug }));
 }
 
+// Render a Lexical AST node to React elements without dangerouslySetInnerHTML
+function LexicalNode({ node, idx }: { node: any; idx: string }): React.ReactNode {
+  if (!node) return null;
+  const children = node.children?.map((child: any, i: number) => (
+    <LexicalNode key={`${idx}-${i}`} node={child} idx={`${idx}-${i}`} />
+  ));
+
+  switch (node.type) {
+    case 'root':
+      return <>{children}</>;
+    case 'paragraph':
+      return <p key={idx}>{children}</p>;
+    case 'heading': {
+      const level = (node.tag as string) || 'h2';
+      if (level === 'h1') return <h1 key={idx}>{children}</h1>;
+      if (level === 'h3') return <h3 key={idx}>{children}</h3>;
+      if (level === 'h4') return <h4 key={idx}>{children}</h4>;
+      return <h2 key={idx}>{children}</h2>;
+    }
+    case 'list':
+      return node.listType === 'bullet'
+        ? <ul key={idx}>{children}</ul>
+        : <ol key={idx}>{children}</ol>;
+    case 'listitem':
+      return <li key={idx}>{children}</li>;
+    case 'quote':
+      return <blockquote key={idx}>{children}</blockquote>;
+    case 'horizontalrule':
+      return <hr key={idx} />;
+    case 'linebreak':
+      return <br key={idx} />;
+    case 'link': {
+      const url = node.fields?.url ?? node.url ?? '#';
+      const newTab = node.fields?.newTab ?? false;
+      return (
+        <a key={idx} href={url} target={newTab ? '_blank' : undefined} rel={newTab ? 'noopener noreferrer' : undefined}>
+          {children}
+        </a>
+      );
+    }
+    case 'text': {
+      let content: React.ReactNode = node.text ?? '';
+      const fmt = node.format ?? 0;
+      if (fmt & 1)  content = <strong>{content}</strong>;
+      if (fmt & 2)  content = <em>{content}</em>;
+      if (fmt & 8)  content = <code>{content}</code>;
+      if (fmt & 16) content = <sub>{content}</sub>;
+      if (fmt & 32) content = <sup>{content}</sup>;
+      return <span key={idx}>{content}</span>;
+    }
+    default:
+      return children ? <>{children}</> : null;
+  }
+}
+
+function LexicalContent({ data }: { data: any }) {
+  if (!data?.root) return null;
+  return <LexicalNode node={data.root} idx="root" />;
+}
+
 export default async function ProjectPage({ params }: Props) {
   const { slug } = await params;
   const payload = await getPayload({ config });
@@ -55,6 +115,8 @@ export default async function ProjectPage({ params }: Props) {
     return extractText(project.description);
   })();
 
+  const body = (project as any).body;
+
   return (
     <>
       <Nav />
@@ -80,18 +142,25 @@ export default async function ProjectPage({ params }: Props) {
         {/* Content */}
         <div className="container">
           <div className="project-content">
-            <Link href="/" className="project-back">
+            <Link href="/projects" className="project-back">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <path d="M19 12H5M12 19l-7-7 7-7" />
               </svg>
-              Back to Home
+              All Projects
             </Link>
 
             <p className="project-meta">
               {project.category} &middot; {project.year}
             </p>
             <h1 className="project-title">{project.title}</h1>
-            <p className="project-description">{projectDescription}</p>
+
+            {body ? (
+              <div className="project-body">
+                <LexicalContent data={body} />
+              </div>
+            ) : (
+              <p className="project-description">{projectDescription}</p>
+            )}
 
             <div className="project-actions">
               {project.live && (
