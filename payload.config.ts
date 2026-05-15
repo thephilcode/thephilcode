@@ -6,6 +6,7 @@ import { lexicalEditor } from '@payloadcms/richtext-lexical';
 import { s3Storage } from '@payloadcms/storage-s3';
 import { Media } from './src/collections/Media';
 import { Projects } from './src/collections/Projects';
+import { Submissions } from './src/collections/Submissions';
 import { Users } from './src/collections/Users';
 import { HeroSettings } from './src/globals/HeroSettings';
 import { AboutSettings } from './src/globals/AboutSettings';
@@ -63,7 +64,7 @@ export default buildConfig({
     },
   },
 
-  collections: [Media, Projects, Users],
+  collections: [Media, Projects, Submissions, Users],
 
   globals: [HeroSettings, AboutSettings, ContactSettings],
 

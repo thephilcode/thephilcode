@@ -8,7 +8,7 @@ export const ContactSettings: GlobalConfig = {
     update: ({ req }) => !!req.user,
   },
   admin: {
-    description: 'Controls the Contact section intro text, social links, and Formspree ID.',
+    description: 'Controls the Contact section intro text and social links.',
   },
   fields: [
     {
@@ -54,15 +54,6 @@ export const ContactSettings: GlobalConfig = {
           label: 'URL',
         },
       ],
-    },
-    {
-      name: 'formspreeId',
-      type: 'text',
-      label: 'Formspree Form ID',
-      defaultValue: 'xzdkvkzl',
-      admin: {
-        description: 'The ID portion of your Formspree form URL (e.g. for formspree.io/f/xzdkvkzl enter "xzdkvkzl").',
-      },
     },
   ],
 };

@@ -49,9 +49,9 @@ const PLATFORM_ICONS: Record<SocialPlatform, React.ReactNode> = {
 };
 
 const DEFAULT_SOCIAL_LINKS: NonNullable<ContactSetting['socialLinks']> = [
-  { platform: 'github', label: 'github.com/thephilcode', url: 'https://github.com/thephilcode' },
+  { platform: 'github',   label: 'github.com/thephilcode',    url: 'https://github.com/thephilcode' },
   { platform: 'linkedin', label: 'linkedin.com/in/philipayo', url: 'https://linkedin.com/in/philipayo' },
-  { platform: 'linktree', label: 'linktr.ee/philipayo', url: 'https://linktr.ee/philipayo' },
+  { platform: 'linktree', label: 'linktr.ee/philipayo',       url: 'https://linktr.ee/philipayo' },
 ];
 
 interface ContactProps {
@@ -59,11 +59,11 @@ interface ContactProps {
 }
 
 export default function Contact({ contact }: ContactProps) {
-  const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
+  const [status, setStatus]     = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
   const [errorMsg, setErrorMsg] = useState('');
-  const [errors, setErrors] = useState<{ name?: string; email?: string; message?: string }>({});
-  const turnstileRef = useRef<HTMLDivElement>(null);
-  const widgetIdRef = useRef<string | null>(null);
+  const [errors, setErrors]     = useState<{ name?: string; email?: string; message?: string }>({});
+  const turnstileRef  = useRef<HTMLDivElement>(null);
+  const widgetIdRef   = useRef<string | null>(null);
 
   useEffect(() => {
     const el = turnstileRef.current;
@@ -79,9 +79,7 @@ export default function Contact({ contact }: ContactProps) {
         widgetIdRef.current = tw.turnstile.render(el, {
           sitekey: siteKey,
           theme: 'dark',
-          'error-callback': () => {
-            widgetIdRef.current = null;
-          },
+          'error-callback': () => { widgetIdRef.current = null; },
         });
       } catch {
         // Turnstile failed to render (e.g. origin mismatch on localhost)
@@ -101,8 +99,7 @@ export default function Contact({ contact }: ContactProps) {
     }
   }, []);
 
-  const intro =
-    contact?.intro ??
+  const intro = contact?.intro ??
     "Open to freelance work, collaborations, and interesting problems. Send a message and I'll get back to you.";
 
   const socialLinks =
@@ -110,28 +107,16 @@ export default function Contact({ contact }: ContactProps) {
       ? contact.socialLinks
       : DEFAULT_SOCIAL_LINKS;
 
-  const formspreeId = process.env.NEXT_PUBLIC_FORMSPREE_ID || contact?.formspreeId;
-  if (!formspreeId) throw new Error('NEXT_PUBLIC_FORMSPREE_ID is required');
-  const formAction = `https://formspree.io/f/${formspreeId}`;
-
   function validateForm(form: HTMLFormElement): boolean {
-    const formData = new FormData(form);
-    const name = formData.get('name') as string;
-    const email = formData.get('email') as string;
-    const message = formData.get('message') as string;
-    const newErrors: { name?: string; email?: string; message?: string } = {};
+    const data = new FormData(form);
+    const name    = data.get('name') as string;
+    const email   = data.get('email') as string;
+    const message = data.get('message') as string;
+    const newErrors: typeof errors = {};
 
-    if (!name || name.trim().length < 2) {
-      newErrors.name = 'Name must be at least 2 characters';
-    }
-
-    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      newErrors.email = 'Please enter a valid email address';
-    }
-
-    if (!message || message.trim().length < 10) {
-      newErrors.message = 'Message must be at least 10 characters';
-    }
+    if (!name || name.trim().length < 2)    newErrors.name    = 'Name must be at least 2 characters';
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) newErrors.email = 'Please enter a valid email address';
+    if (!message || message.trim().length < 10) newErrors.message = 'Message must be at least 10 characters';
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -139,63 +124,43 @@ export default function Contact({ contact }: ContactProps) {
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-
     const form = e.currentTarget;
-
-    if (!validateForm(form)) {
-      return;
-    }
+    if (!validateForm(form)) return;
 
     setStatus('sending');
     setErrorMsg('');
 
+    const tw = (window as TurnstileWindow).turnstile;
+    const token = tw?.getResponse(widgetIdRef.current ?? undefined);
+
     try {
       const formData = new FormData(form);
-      const tw = (window as TurnstileWindow).turnstile;
-      const token = tw?.getResponse(widgetIdRef.current ?? undefined);
-
-      const body: Record<string, string> = {
-        name: formData.get('name') as string,
-        email: formData.get('email') as string,
-        message: formData.get('message') as string,
-      };
-      if (token) body['cf-turnstile-response'] = token;
-
-      const res = await fetch(form.action, {
+      const res = await fetch('/api/contact', {
         method: 'POST',
-        body: JSON.stringify(body),
-        headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name:                   formData.get('name'),
+          email:                  formData.get('email'),
+          message:                formData.get('message'),
+          'cf-turnstile-response': token,
+        }),
       });
 
-      if (res.ok) {
+      const data = await res.json() as { ok?: boolean; error?: string };
+
+      if (res.ok && data.ok) {
         form.reset();
         setErrors({});
         setStatus('success');
         tw?.reset(widgetIdRef.current ?? undefined);
         setTimeout(() => setStatus('idle'), 6000);
       } else {
-        const data = await res.json().catch(() => ({})) as {
-          error?: string;
-          errors?: { field?: string; message: string; code: string }[];
-        };
-        console.error('[Contact form] Formspree response:', res.status, data);
-        let msg =
-          data?.errors?.map(err => err.message).join(', ') ||
-          data?.error ||
-          'Something went wrong. Please try again.';
-        if (msg.toLowerCase().includes('turnstile')) {
-          msg = 'CAPTCHA verification failed. Please refresh and try again.';
-        }
-        setErrorMsg(msg);
+        setErrorMsg(data.error ?? 'Something went wrong. Please try again.');
         setStatus('error');
         tw?.reset(widgetIdRef.current ?? undefined);
         setTimeout(() => setStatus('idle'), 6000);
       }
-    } catch (err) {
-      console.error('[Contact form]', err);
+    } catch {
       setErrorMsg('Network error. Please try again.');
       setStatus('error');
       setTimeout(() => setStatus('idle'), 6000);
@@ -223,12 +188,7 @@ export default function Contact({ contact }: ContactProps) {
               <ul className="contact__social-list" role="list">
                 {socialLinks.map(({ label, url, platform }) => (
                   <li key={url}>
-                    <a
-                      href={url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="contact__social"
-                    >
+                    <a href={url} target="_blank" rel="noopener noreferrer" className="contact__social">
                       <span className="contact__social-icon">
                         {PLATFORM_ICONS[platform as SocialPlatform] ?? PLATFORM_ICONS.other}
                       </span>
@@ -240,16 +200,9 @@ export default function Contact({ contact }: ContactProps) {
             </ScrollReveal>
           </div>
 
-          {/* Right — Formspree form */}
+          {/* Right — contact form */}
           <ScrollReveal delay={160}>
-              <form
-                className="form"
-                action={formAction}
-                method="POST"
-                onSubmit={handleSubmit}
-                noValidate
-              >
-                <input type="text" name="_gotcha" style={{ display: 'none' }} tabIndex={-1} autoComplete="off" />
+            <form className="form" onSubmit={handleSubmit} noValidate>
               <div className="form__group">
                 <label htmlFor="name" className="form__label">Name</label>
                 <input
@@ -263,9 +216,7 @@ export default function Contact({ contact }: ContactProps) {
                   aria-describedby={errors.name ? 'name-error' : undefined}
                 />
                 {errors.name && (
-                  <span id="name-error" className="form__error" role="alert">
-                    {errors.name}
-                  </span>
+                  <span id="name-error" className="form__error" role="alert">{errors.name}</span>
                 )}
               </div>
 
@@ -282,9 +233,7 @@ export default function Contact({ contact }: ContactProps) {
                   aria-describedby={errors.email ? 'email-error' : undefined}
                 />
                 {errors.email && (
-                  <span id="email-error" className="form__error" role="alert">
-                    {errors.email}
-                  </span>
+                  <span id="email-error" className="form__error" role="alert">{errors.email}</span>
                 )}
               </div>
 
@@ -299,9 +248,7 @@ export default function Contact({ contact }: ContactProps) {
                   aria-describedby={errors.message ? 'message-error' : undefined}
                 />
                 {errors.message && (
-                  <span id="message-error" className="form__error" role="alert">
-                    {errors.message}
-                  </span>
+                  <span id="message-error" className="form__error" role="alert">{errors.message}</span>
                 )}
               </div>
 
@@ -311,12 +258,10 @@ export default function Contact({ contact }: ContactProps) {
                 </p>
               )}
               {status === 'error' && (
-                <p className="form__status error" role="alert">
-                  {errorMsg}
-                </p>
+                <p className="form__status error" role="alert">{errorMsg}</p>
               )}
 
-              {/* Cloudflare Turnstile CAPTCHA — rendered explicitly via useEffect */}
+              {/* Cloudflare Turnstile CAPTCHA */}
               <div ref={turnstileRef} />
 
               <MagneticButton
