@@ -57,7 +57,7 @@
 - [x] Media cloud storage — swap local filesystem adapter for S3/Cloudflare R2 (`@payloadcms/storage-s3`); required before any deployment to an ephemeral filesystem (Vercel, etc.)
 - [x] Migrate contact form from Formspree → Resend + Payload (`/api/contact` Route Handler; Turnstile verified server-side; submissions saved to Payload `Submissions` collection; notification email via Resend)
 
-### Phase E — Projects expansion ✅
+### Phase E — Projects expansion
 - [x] Add optional `body` richText field to Projects collection — full write-up for bigger projects (case study format); project detail page shows `body` if present, falls back to `description`
 - [x] `description` stays as `textarea` (plain text) — used on cards and as SEO meta description
 - [x] Dedicated `/projects` page — full grid of all projects, "Load More" (show 9, reveal more client-side; all content in DOM for SEO)
@@ -66,16 +66,16 @@
 - [x] Auto-generate slugs on project creation (`beforeChange` hook in Projects collection)
 
 ### Phase F — Blog
-- [ ] `Posts` Payload collection: title, slug (auto-generated), body (richText/Lexical), excerpt (textarea), coverImage (upload), tags (array of text), publishedAt (date), status (draft/published)
-- [ ] `/blog` listing page — card grid, sorted by date, "Load More" pattern (same as `/projects`)
-- [ ] `/blog/[slug]` detail page — cover image hero, reading time estimate, richText body rendered via `LexicalContent` component, back link
-- [ ] "Blog" nav link (alongside Work, About, Contact)
-- [ ] RSS feed at `/feed.xml` — auto-generated from published posts
-- [ ] OG image + metadata per post (title, excerpt as description)
+- [x] `Posts` Payload collection: title, slug (auto-generated), body (richText/Lexical), excerpt (textarea), coverImage (upload), tags (array of text), publishedAt (date), status (draft/published)
+- [x] `/blog` listing page — card grid, sorted by date, "Load More" pattern (same as `/projects`)
+- [x] `/blog/[slug]` detail page — cover image hero, reading time estimate, richText body rendered via `LexicalContent` component, back link
+- [x] "Blog" nav link (alongside Work, About, Contact)
+- [x] RSS feed at `/feed.xml` — auto-generated from published posts
+- [x] OG image + metadata per post (title, excerpt as description)
 
 ### Future additions
 - [ ] **Project category filtering** — filter bar on `/projects` page; single `useState` + CSS show/hide; no new pages
 - [ ] **Availability badge** — "Open to work / Currently busy" toggle in Payload globals; rendered in hero or nav
 - [ ] **Resume PDF download** — link in nav or hero; PDF hosted in R2 or as a static asset
 - [ ] **Newsletter** — email capture form using Resend audience/broadcasts; one new Route Handler, one new component
-- [ ] **Reading time** — word-count estimate shown on blog post cards and detail pages (already planned for Phase F)
+- [x] **Reading time** — word-count estimate shown on blog post cards and detail pages

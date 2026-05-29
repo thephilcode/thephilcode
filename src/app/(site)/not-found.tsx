@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
+import Link from 'next/link';
 import MagneticButton from '@/components/animations/MagneticButton';
 
 const PARTICLES = [
@@ -34,7 +35,7 @@ export default function NotFound() {
   return (
     <main className="not-found">
       <header className="not-found__header">
-        <a href="/" className="not-found__logo">THEPHILCODE</a>
+        <Link href="/" className="not-found__logo">THEPHILCODE</Link>
       </header>
 
       <div className="not-found__grid" />

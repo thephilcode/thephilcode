@@ -14,7 +14,6 @@
     "seed": "tsx src/seed.ts"
   },
   "dependencies": {
-    "resend": "^4.0.0",
     "@payloadcms/db-postgres": "3.81.0",
     "@payloadcms/next": "3.81.0",
     "@payloadcms/richtext-lexical": "3.81.0",
@@ -26,9 +25,11 @@
     "next": "15.4.11",
     "payload": "3.81.0",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "resend": "^4.0.0"
   },
   "devDependencies": {
+    "@eslint/eslintrc": "^3.3.5",
     "@types/node": "^22",
     "@types/react": "^19",
     "@types/react-dom": "^19",

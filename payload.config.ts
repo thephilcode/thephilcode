@@ -5,6 +5,7 @@ import { postgresAdapter } from '@payloadcms/db-postgres';
 import { lexicalEditor } from '@payloadcms/richtext-lexical';
 import { s3Storage } from '@payloadcms/storage-s3';
 import { Media } from './src/collections/Media';
+import { Posts } from './src/collections/Posts';
 import { Projects } from './src/collections/Projects';
 import { Submissions } from './src/collections/Submissions';
 import { Users } from './src/collections/Users';
@@ -64,19 +65,19 @@ export default buildConfig({
     },
   },
 
-  collections: [Media, Projects, Submissions, Users],
+  collections: [Media, Posts, Projects, Submissions, Users],
 
   globals: [HeroSettings, AboutSettings, ContactSettings],
 
   db: postgresAdapter({
     pool: {
-      connectionString: process.env.DATABASE_URL,
+      connectionString: requireEnv('DATABASE_URL')
     },
   }),
 
   editor: lexicalEditor(),
 
-  secret: process.env.PAYLOAD_SECRET || (() => { throw new Error('PAYLOAD_SECRET environment variable is required'); })(),
+  secret: requireEnv('PAYLOAD_SECRET'),
 
   cors: [process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3000'],
   csrf: [process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3000'],

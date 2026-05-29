@@ -17,6 +17,9 @@
 # Claude
 .claude/
 
+# Antigravity
+.antigravitycli/
+
 # Vercel
 .vercel
 

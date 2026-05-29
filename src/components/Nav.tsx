@@ -49,6 +49,7 @@ export default function Nav() {
   };
 
   const isWorkActive = pathname.startsWith('/projects');
+  const isBlogActive = pathname.startsWith('/blog');
 
   return (
     <>
@@ -67,6 +68,15 @@ export default function Nav() {
                   onClick={() => setMenuOpen(false)}
                 >
                   Work
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/blog"
+                  className={`nav__link${isBlogActive ? ' active' : ''}`}
+                  onClick={() => setMenuOpen(false)}
+                >
+                  Blog
                 </Link>
               </li>
               {SECTION_LINKS.map(({ label, hash }) => (
@@ -109,6 +119,13 @@ export default function Nav() {
           onClick={() => setMenuOpen(false)}
         >
           Work
+        </Link>
+        <Link
+          href="/blog"
+          className={`nav__link${isBlogActive ? ' active' : ''}`}
+          onClick={() => setMenuOpen(false)}
+        >
+          Blog
         </Link>
         {SECTION_LINKS.map(({ label, hash }) => (
           <a

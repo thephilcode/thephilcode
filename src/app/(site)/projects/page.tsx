@@ -34,7 +34,7 @@ export default async function ProjectsPage() {
       <main style={{ paddingTop: 'var(--nav-height)' }}>
         <div className="container">
           <header className="projects-page-head">
-            <p className="section-label">// Work</p>
+            <p className="section-label">Work</p>
             <div className="divider" />
             <h1 className="projects-page-title">All Projects</h1>
             <p className="projects-page-count">{sorted.length} project{sorted.length !== 1 ? 's' : ''}</p>
