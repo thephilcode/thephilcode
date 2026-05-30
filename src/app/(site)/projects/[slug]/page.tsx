@@ -127,7 +127,7 @@ export default async function ProjectPage({ params }: Props) {
     return extractText(project.description);
   })();
 
-  const body = (project as Record<string, unknown>).body as { root: LexicalNodeData } | undefined;
+  const body = (project as unknown as Record<string, unknown>).body as { root: LexicalNodeData } | undefined;
 
   return (
     <>

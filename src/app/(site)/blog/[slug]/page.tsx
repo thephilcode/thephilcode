@@ -153,7 +153,7 @@ export default async function BlogPostPage({ params }: Props) {
     ? (post.coverImage as { url?: string; alt?: string })
     : null;
 
-  const body = (post as Record<string, unknown>).body as { root: LexicalNodeData } | undefined;
+  const body = (post as unknown as Record<string, unknown>).body as { root: LexicalNodeData } | undefined;
   const readingMinutes = estimateReadingTime(body);
   const tags = post.tags as Array<{ id?: string; tag: string }> | null | undefined;
 

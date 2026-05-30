@@ -42,7 +42,7 @@ export default async function BlogPage() {
         coverImage: cover,
         tags: post.tags as PostSummary['tags'],
         publishedAt: post.publishedAt,
-        readingMinutes: estimateReadingTime((post as Record<string, unknown>).body),
+        readingMinutes: estimateReadingTime((post as unknown as Record<string, unknown>).body),
       });
     }
   } catch {
