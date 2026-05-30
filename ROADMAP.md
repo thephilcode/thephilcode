@@ -74,6 +74,7 @@
 - [x] OG image + metadata per post (title, excerpt as description)
 
 ### Future additions
+- [x] **Self-hosted fonts** — download Satoshi woff2 files locally (`public/fonts/satoshi/`); add `@font-face` to globals.css; remove Fontshare CDN link (Space Grotesk + Space Mono already self-hosted via `next/font/google`)
 - [ ] **Project category filtering** — filter bar on `/projects` page; single `useState` + CSS show/hide; no new pages
 - [ ] **Availability badge** — "Open to work / Currently busy" toggle in Payload globals; rendered in hero or nav
 - [ ] **Resume PDF download** — link in nav or hero; PDF hosted in R2 or as a static asset

@@ -75,12 +75,7 @@ export default function SiteLayout({
   return (
     <html lang="en" className={`${spaceGrotesk.variable} ${spaceMono.variable}`}>
       <head>
-        <link rel="preconnect" href="https://api.fontshare.com" />
         <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer />
-        <link
-          href="https://api.fontshare.com/v2/css?f[]=satoshi@900,700,500,400&display=swap"
-          rel="stylesheet"
-        />
         {process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID && (
           <script
             defer
