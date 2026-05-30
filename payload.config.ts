@@ -73,6 +73,8 @@ export default buildConfig({
     pool: {
       connectionString: requireEnv('DATABASE_URL')
     },
+    // Only enable db pushing when strictly inside a local development environment
+    push: process.env.NODE_ENV === 'development', 
   }),
 
   editor: lexicalEditor(),
