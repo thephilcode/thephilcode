@@ -119,10 +119,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const post = result.docs[0];
   if (!post) return {};
 
-  const coverUrl = post.coverImage && typeof post.coverImage !== 'number'
-    ? (post.coverImage as { url?: string }).url
-    : undefined;
-
   return {
     title: `${post.title} — thephilcode`,
     description: post.excerpt ?? undefined,
@@ -131,7 +127,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       description: post.excerpt ?? undefined,
       type: 'article',
       publishedTime: post.publishedAt ?? undefined,
-      images: coverUrl ? [{ url: coverUrl }] : undefined,
     },
   };
 }
