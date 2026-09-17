@@ -11,7 +11,7 @@ I'm a **software developer and AI enthusiast** who enjoys building intelligent s
 * 💻 I build **full-stack web applications, mobile applications, and more**
 * 🧠 Interested in **Artificial Intelligence & Machine Learning**
 * 🎯 Currently focused on **practical, real-world engineering**
-* ♟️ When not coding: chess, cubing, movies, or a random deep dive into tech
+* ♟️ When not coding: chess, cubing, music, or a random deep dive into tech
 
 ---
 
@@ -43,23 +43,15 @@ Here are a few things I’ve worked on:
 * 🤖 AI-based systems and experiments
 * 🌐 Full-stack web applications
 * ⚙️ Automation scripts and tools
-* 🎮 Game logic implementations (Minimax, etc.)
+* 🎮 Game logic implementations
 
 > More projects coming soon — I’m always building.
 
 ---
 
-## 📈 Currently Learning
-
-* Advanced AI concepts
-* System design & backend architecture
-* VPS hosting & server management
-
----
-
 ## 🌐 Portfolio
 
-🚧 Coming soon — building something clean and minimal (with a touch of gold, of course).
+Check out projects I've worked on on my portfolio at [thephilcode.vercel.app](https://thephilcode.vercel.app).
 
 ---
 
