@@ -1,5 +1,8 @@
 import { getPayload } from 'payload';
 import config from '@payload-config';
+
+export const revalidate = 60;
+
 import type { Metadata } from 'next';
 import type { Project } from '@/payload-types';
 import Nav from '@/components/Nav';

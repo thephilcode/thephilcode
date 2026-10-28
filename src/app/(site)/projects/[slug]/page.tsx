@@ -1,5 +1,8 @@
 import { getPayload } from 'payload';
 import config from '@payload-config';
+
+export const revalidate = 60;
+
 import type { Project } from '@/payload-types';
 import Image from 'next/image';
 import Link from 'next/link';

@@ -8,6 +8,8 @@
  *   - DATABASE_URL and PAYLOAD_SECRET set in .env.local
  *   - Database migrated: pnpm payload migrate
  */
+import dotenv from 'dotenv';
+dotenv.config({ path: '.env.local' });
 import * as path from 'path';
 import * as fs from 'fs';
 import { fileURLToPath } from 'url';

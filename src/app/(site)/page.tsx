@@ -1,5 +1,8 @@
 import { getPayload } from 'payload';
 import config from '@payload-config';
+
+export const revalidate = 60;
+
 import type { HeroSetting, AboutSetting, ContactSetting, Project } from '@/payload-types';
 import ScrollProgress from '@/components/animations/ScrollProgress';
 import ScrollColorShift from '@/components/animations/ScrollColorShift';
