@@ -54,7 +54,6 @@ export async function generateImageParams(params: Promise<{ slug: string }>) {
             overflow: 'hidden',
           }}
         >
-          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={thumbnail.url}
             alt={project.title}
